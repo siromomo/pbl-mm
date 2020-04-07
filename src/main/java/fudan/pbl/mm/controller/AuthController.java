@@ -1,6 +1,9 @@
 package fudan.pbl.mm.controller;
 
 import fudan.pbl.mm.controller.request.LoginRequest;
+import fudan.pbl.mm.controller.response.ResponseObject;
+import fudan.pbl.mm.domain.User;
+import fudan.pbl.mm.security.jwt.JwtTokenUtil;
 import fudan.pbl.mm.service.AuthService;
 import fudan.pbl.mm.controller.request.RegisterRequest;
 import org.slf4j.Logger;
@@ -9,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,12 +21,14 @@ import java.util.Map;
 public class AuthController {
 
     private AuthService authService;
+    private JwtTokenUtil jwtTokenUtil;
 
     Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     @Autowired
-    public AuthController(AuthService authService) {
+    public AuthController(AuthService authService, JwtTokenUtil jwtTokenUtil) {
         this.authService = authService;
+        this.jwtTokenUtil = jwtTokenUtil;
     }
 
 
@@ -33,10 +40,15 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<?> login(@RequestBody LoginRequest request, HttpServletRequest httpServletRequest) {
         logger.debug("LoginForm: " + request.toString());
+        ResponseObject<User> responseObject =  authService.login(request);
+        if(responseObject.getCode() != 200){
+            return ResponseEntity.ok(responseObject);
+        }
+        responseObject.setMessage(jwtTokenUtil.generateToken(responseObject.getContent()));
 
-        return ResponseEntity.ok(authService.login(request.getUsername(), request.getPassword()));
+        return ResponseEntity.ok(responseObject);
     }
 
     @GetMapping("/welcome")
@@ -45,6 +57,11 @@ public class AuthController {
         String message = "Welcome. ";
         response.put("message", message);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity<?> test(){
+        return ResponseEntity.ok("test");
     }
 
 }

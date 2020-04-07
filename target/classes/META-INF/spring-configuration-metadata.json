@@ -2,20 +2,20 @@
   "groups": [
     {
       "name": "jwt.token",
-      "type": "fudan.se.lab2.security.jwt.JwtConfigProperties",
-      "sourceType": "fudan.se.lab2.security.jwt.JwtConfigProperties"
+      "type": "fudan.pbl.mm.security.jwt.JwtConfigProperties",
+      "sourceType": "fudan.pbl.mm.security.jwt.JwtConfigProperties"
     }
   ],
   "properties": [
     {
       "name": "jwt.token.secret",
       "type": "java.lang.String",
-      "sourceType": "fudan.se.lab2.security.jwt.JwtConfigProperties"
+      "sourceType": "fudan.pbl.mm.security.jwt.JwtConfigProperties"
     },
     {
       "name": "jwt.token.validity",
       "type": "java.lang.Integer",
-      "sourceType": "fudan.se.lab2.security.jwt.JwtConfigProperties",
+      "sourceType": "fudan.pbl.mm.security.jwt.JwtConfigProperties",
       "defaultValue": 0
     }
   ],

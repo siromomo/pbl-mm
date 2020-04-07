@@ -1,7 +1,10 @@
 package fudan.pbl.mm.security;
 
+import fudan.pbl.mm.controller.AuthController;
 import fudan.pbl.mm.security.jwt.JwtRequestFilter;
 import fudan.pbl.mm.service.JwtUserDetailsService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtUserDetailsService userDetailsService;
     private JwtRequestFilter jwtRequestFilter;
 
+
     @Autowired
     public SecurityConfig(JwtUserDetailsService userDetailsService, JwtRequestFilter jwtRequestFilter) {
         this.userDetailsService = userDetailsService;
@@ -31,30 +35,34 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        // TODO: Configure your auth here. Remember to read the JavaDoc carefully.
+        auth.userDetailsService(userDetailsService);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // TODO: you need to configure your http security. Remember to read the JavaDoc carefully.
-
-        // We dont't need CSRF for this project.
-        http.csrf().disable()
-                // Make sure we use stateless session; session won't be used to store user's state.
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+        http.cors().and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/welcome").permitAll()
+                .and()
+                .authorizeRequests()
+                .antMatchers("/register").permitAll()
+                .and()
+                .authorizeRequests()
+                .antMatchers("/login").permitAll()
+                .antMatchers("/checkUsername").permitAll()
+                .antMatchers("/ws/**").permitAll()
+                .antMatchers("/app/**").permitAll()
+                .antMatchers("/topic/**").permitAll()
+                .antMatchers("/user/**").permitAll()
                 .anyRequest().authenticated();
 
-//      Here we use JWT(Json Web Token) to authenticate the user.
-//      You need to write your code in the class 'JwtRequestFilter' to make it works.
+
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        // Hint: Now you can view h2-console page at `http://IP-Address:<port>/h2-console` without authentication.
+        // view h2-console page at `http://IP-Address:<port>/h2-console` without authentication.
         web.ignoring().antMatchers("/h2-console/**");
     }
 

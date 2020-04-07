@@ -18,18 +18,26 @@ public class User implements UserDetails {
     @Column(unique = true)
     private String username;
 
+    private int age;
+    private String region;
+    private String gender;
     private String password;
     private String fullname;
 
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-    private Set<Authority> authorities = new HashSet<>();
-
+    private Set<Authority> authorities;
+    @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    private Set<Cell> cells;
 
     public User() {}
-    public User(String username, String password, String fullname, Set<Authority> authorities) {
+    public User(String username, String password, String fullname,
+                int age, String region, String gender, Set<Authority> authorities) {
         this.username = username;
         this.password= password;
         this.fullname = fullname;
+        this.age = age;
+        this.region = region;
+        this.gender = gender;
         this.authorities = authorities;
     }
 
@@ -94,5 +102,47 @@ public class User implements UserDetails {
 
     public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public Set<Cell> getCells() {
+        return cells;
+    }
+
+    public void setCells(Set<Cell> cells) {
+        this.cells = cells;
+    }
+
+    public void addToCells(Cell cell){
+        if(cells == null) cells = new HashSet<>();
+        cells.add(cell);
+    }
+
+    public void removeFromCells(Cell cell){
+        if(cells == null || !cells.contains(cell)) return;
+        cells.remove(cell);
     }
 }

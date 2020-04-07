@@ -1,5 +1,6 @@
 package fudan.pbl.mm.service;
 
+import fudan.pbl.mm.domain.User;
 import fudan.pbl.mm.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,7 +17,9 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // TODO: Implement the function.
-        throw new UsernameNotFoundException("User: '" + username + "' not found.");
+        User user = userRepository.findByUsername(username);
+        if(user == null)
+            throw new UsernameNotFoundException("User: '" + username + "' not found.");
+        return user;
     }
 }

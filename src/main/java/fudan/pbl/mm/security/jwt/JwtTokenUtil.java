@@ -13,7 +13,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-
+/**
+ * This is a util class to use JWT.
+ * We give it to you for free. :)
+ *
+ * @author LBW
+ */
 @Component
 public class JwtTokenUtil implements Serializable {
 

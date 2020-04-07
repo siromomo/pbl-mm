@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="js/jquery.js"></script>
+</head>
+<body>
+<div>
+    username: <input type="text" name="username" id="username"><br>
+    password: <input type="text" name="password" id="password"><br>
+    <button onclick="loginFunc()">login</button>
+</div>
+<script>
+  function loginFunc() {
+      $.ajax({
+          type: 'post',
+          url:"http://localhost:8080/login",
+          contentType:'application/json',
+          data:JSON.stringify({
+              "username": $("#username").val(),
+              "password": $("#password").val()
+          }),
+          dataType:'json',
+          success:function (data) {
+              console.log(data);
+              if(data.code === 200) {
+                  localStorage.setItem("jwt_token", data.message);
+                  localStorage.setItem("user_id", data.content.id);
+                  window.location.href = "chooseCell.html";
+              }else{
+                  alert(data.message);
+              }
+          }
+      });
+  }
+</script>
+</body>
+</html>

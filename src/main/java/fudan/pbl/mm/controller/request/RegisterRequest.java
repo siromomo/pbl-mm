@@ -7,14 +7,21 @@ public class RegisterRequest {
     private String username;
     private String password;
     private String fullname;
+    private int age;
+    private String region;
+    private String gender;
     private Set<String> authorities;
 
     public RegisterRequest() {}
 
-    public RegisterRequest(String username, String password, String fullname, Set<String> authorities) {
+    public RegisterRequest(String username, String password, String fullname, int age,
+                           String region, String gender, Set<String> authorities) {
         this.username = username;
         this.password = password;
         this.fullname = fullname;
+        this.age = age;
+        this.region = region;
+        this.gender = gender;
         this.authorities = authorities;
     }
 
@@ -48,6 +55,30 @@ public class RegisterRequest {
 
     public void setAuthorities(Set<String> authorities) {
         this.authorities = authorities;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }
 
