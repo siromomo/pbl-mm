@@ -26,8 +26,6 @@ public class User implements UserDetails {
 
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     private Set<Authority> authorities;
-    @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-    private Set<Cell> cells;
 
     public User() {}
     public User(String username, String password, String fullname,
@@ -128,21 +126,13 @@ public class User implements UserDetails {
         return region;
     }
 
-    public Set<Cell> getCells() {
-        return cells;
-    }
-
-    public void setCells(Set<Cell> cells) {
-        this.cells = cells;
-    }
-
     public void addToCells(Cell cell){
-        if(cells == null) cells = new HashSet<>();
-        cells.add(cell);
+        if(cell == null) return;
+        cell.setUser(this);
     }
 
     public void removeFromCells(Cell cell){
-        if(cells == null || !cells.contains(cell)) return;
-        cells.remove(cell);
+        if(cell == null) return;
+        cell.setUser(null);
     }
 }

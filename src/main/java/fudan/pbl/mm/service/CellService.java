@@ -1,5 +1,7 @@
 package fudan.pbl.mm.service;
 
+import com.google.common.collect.Lists;
+import com.sun.deploy.nativesandbox.comm.Response;
 import fudan.pbl.mm.controller.WebSocketController;
 import fudan.pbl.mm.controller.response.ResponseObject;
 import fudan.pbl.mm.domain.Cell;
@@ -10,6 +12,9 @@ import fudan.pbl.mm.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CellService {
@@ -59,5 +64,13 @@ public class CellService {
         cellRepository.save(cell);
         userRepository.save(user);
         return new ResponseObject<>(200, "success", cell);
+    }
+
+    public ResponseObject<List<Cell>> findCellsByUser(String username){
+        User user = userRepository.findByUsername(username);
+        if(user == null){
+            return new ResponseObject<>(404, "user does not exist", null);
+        }
+        return new ResponseObject<>(200, "success", cellRepository.findCellsByUser(user));
     }
 }

@@ -5,6 +5,8 @@ import org.springframework.data.repository.cdi.Eager;
 
 import javax.persistence.*;
 
+import java.util.Calendar;
+
 import static fudan.pbl.mm.service.CellService.CELL_INIT_MAX_LEVEL;
 
 @Entity
@@ -18,12 +20,18 @@ public class Cell {
     private String nickname;
     private String type;
     private int level;
+    @Column(columnDefinition = "boolean default true")
     private boolean active;
     private int initLevel;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id",referencedColumnName="id")
+    private User user;
 
     public Cell(){
         this.level = (int)(Math.random() * CELL_INIT_MAX_LEVEL);
         this.initLevel = level;
+        this.active = true;
     }
     public Cell(String type, String nickname, int level){
         this.type = type;
@@ -79,6 +87,25 @@ public class Cell {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof Cell)) return false;
+        return ((Cell) obj).id.equals(id);
+    }
+
+    @Override
+    public int hashCode() {
+        return (int)(this.id % Integer.MAX_VALUE);
     }
 }
 

@@ -27,8 +27,8 @@ class ApplicationTests {
     @Test
     public void testRegisterAndLogin(){
         template = new RestTemplate();
-        String username = "test";
-        String password = "test";
+        String username = "test2";
+        String password = "test2";
         Set<String> auth = new HashSet<>();
         auth.add("Student");
         System.out.println(

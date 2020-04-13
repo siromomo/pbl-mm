@@ -9,4 +9,5 @@ import java.util.List;
 public interface CellRepository extends CrudRepository<Cell, Long> {
     public Cell findCellById(Long id);
     public Cell findCellByNickname(String nickname);
+    List<Cell> findCellsByUser(User user);
 }

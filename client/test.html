@@ -6,44 +6,89 @@
     <script type="text/javascript" src="js/sockjs.js"></script>
     <script type="text/javascript" src="js/stomp.min.js"></script>
     <script type="text/javascript" src="js/jquery.js"></script>
+    <style>
+        #cells {
+            height: 500px;
+            width: 500px;
+        }
+        .virus{
+            height: 5px;
+            width: 5px;
+            position: absolute;
+            background: black;
+        }
+        .cell{
+            height: 5px;
+            width: 5px;
+            position: absolute;
+            background: red;
+        }
+    </style>
 </head>
 <body>
-    <h5>cells</h5>
-    <div id="cells">
+<h5>cells</h5>
+<div id="cells">
+    <span class="virus" id="virus1"></span>
+    <span class="virus" id="virus2"></span>
+    <span class="virus" id="virus3"></span>
+    <span class="virus" id="virus4"></span>
+    <span class="virus" id="virus5"></span>
+    <span class="cell" id="cell"></span>
+</div>
+<div id="chats">
 
-    </div>
-    <div id="chats">
-
-    </div>
-    <div>
-        <p>my cell:</p>
-        x: <input type="text" name="x" id="x"><br>
-        y: <input type="text" name="y" id="y"><br>
-        z: <input type="text" name="z" id="z"><br>
-        <button onclick="send()">change position</button>
-    </div>
+</div>
+<div>
+    <p>my cell:</p>
+    x: <input type="text" name="x" id="x"><br>
+    y: <input type="text" name="y" id="y"><br>
+    z: <input type="text" name="z" id="z"><br>
+    <button onclick="send()">change position</button>
+</div>
 <script>
     var rootPath = "http://localhost:8080";
     var socket = null;
     var stompClient = null;
-    function connect() {
-        socket = new SockJS(rootPath + '/ws');
-        stompClient = Stomp.over(socket);
-        stompClient.connect({}, function (frame) {
-            // 订阅 /topic/to-all 实现公告
-            stompClient.subscribe('/topic/positionToAll',
-                function (dd) {
-                    console.log("received:" + dd);
-                    $("#cells").append("<p>" + JSON.parse(dd.body) + "</p>");
-                });
-            // 订阅 /user/userId/to-one 实现点对点
-            stompClient.subscribe('/user/' + localStorage.getItem("user_id") + '/toOne',
-                function (dd) {
-                    //showMsg(JSON.parse(dd.body));
-                });
-        });
-    }
-    connect();
+    socket = new SockJS(rootPath + '/ws');
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function (frame) {
+        // 订阅 /topic/to-all 实现公告
+        stompClient.subscribe('/topic/positionToAll',
+            function (dd) {
+                //console.log("received:" + dd);
+                //$("#cells").append("<p>" + dd.body + "</p>");
+                var obj = JSON.parse(dd.body);
+                var content = obj.content;
+            });
+        stompClient.subscribe('/topic/updateCellAndVirus',
+            function (dd) {
+                //console.log("received:" + dd);
+                //$("#cells").append("<p>" + dd.body + "</p>");
+                var obj = JSON.parse(dd.body);
+                var content = obj.content;
+                var virusMap = content.virusPositionMap;
+                var cellMap = content.cellPositionMap;
+                var i = 0;
+                for(var virus in virusMap){
+                    var pos = virusMap[virus];
+                    i++;
+                    $("#virus" + i).css("top", (pos.x * 5) + "px");
+                    $("#virus" + i).css("left", (pos.y * 5) + "px");
+                }
+                for(var cell in cellMap){
+                    var pos = cellMap[cell];
+                    $("#cell").css("top", (pos.x * 5) + "px");
+                    $("#cell").css("left", (pos.y * 5) + "px");
+                    break;
+                }
+            });
+        // 订阅 /user/userId/to-one 实现点对点
+        stompClient.subscribe('/user/' + localStorage.getItem("user_id") + '/toOne',
+            function (dd) {
+                //showMsg(JSON.parse(dd.body));
+            });
+    });
+
     function send() {
         var webMsg = {
             'x': parseInt($("#x").val()),
@@ -51,7 +96,7 @@
             'z': parseInt($("#z").val()),
             'objectId': parseInt(localStorage.getItem("cellId"))
         };
-        stompClient.send("/app/updatePosition",{},
+        stompClient.send("/app/updatePosition", {},
             JSON.stringify(webMsg));
     }
 
