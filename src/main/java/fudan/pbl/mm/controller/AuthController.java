@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -62,6 +63,27 @@ public class AuthController {
     @GetMapping("/test")
     public ResponseEntity<?> test(){
         return ResponseEntity.ok("test");
+    }
+
+    @RequestMapping("/setProfilePhoto")
+    public ResponseEntity<?> setProfilePhoto(@RequestParam MultipartFile file, @RequestHeader String jwt_token,
+                                             HttpServletRequest request){
+        String path = request.getContextPath();
+        String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path;
+        String username = jwtTokenUtil.getUsernameFromToken(jwt_token);
+        if(username == null){
+            return ResponseEntity.ok(new ResponseObject<>(404, "jwt token invalid", null));
+        }
+        return ResponseEntity.ok(authService.setProfilePhoto(username, file, basePath));
+    }
+
+    @RequestMapping("/getUserInfo")
+    public ResponseEntity<?> getUserInfo(@RequestHeader String jwt_token){
+        String username = jwtTokenUtil.getUsernameFromToken(jwt_token);
+        if(username == null){
+            return ResponseEntity.ok(new ResponseObject<>(404, "jwt token invalid", null));
+        }
+        return ResponseEntity.ok(authService.getUserInfo(username));
     }
 
 }

@@ -23,6 +23,7 @@ public class User implements UserDetails {
     private String gender;
     private String password;
     private String fullname;
+    private String headProfilePath;
 
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     private Set<Authority> authorities;
@@ -124,6 +125,14 @@ public class User implements UserDetails {
 
     public String getRegion() {
         return region;
+    }
+
+    public String getHeadProfilePath() {
+        return headProfilePath;
+    }
+
+    public void setHeadProfilePath(String headProfilePath) {
+        this.headProfilePath = headProfilePath;
     }
 
     public void addToCells(Cell cell){

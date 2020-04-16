@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="js/sockjs.js"></script>
+    <script type="text/javascript" src="js/stomp.min.js"></script>
+    <script type="text/javascript" src="js/jquery.js"></script>
+</head>
+<body>
+<img id="photo" src="">
+<form method="post" enctype="multipart/form-data" id="uploadForm">
+    <input type="file" name="file">
+    <a class="button" onclick="upload()">upload</a>
+</form>
+</body>
+<script>
+    $.ajax({
+        type: 'get',
+        url:"http://localhost:8080/getUserInfo",
+        headers:{'jwt_token': localStorage.getItem("jwt_token")},
+        success:function(data){
+            console.log(data);
+            if(data.code === 200){
+                var url = data.content.headProfilePath;
+                $("#photo").attr("src", url);
+            }
+        }
+    })
+    function upload() {
+        $.ajax({
+            type: 'post',
+            url:"http://localhost:8080/setProfilePhoto",
+            cache: false,
+            data: new FormData($("#uploadForm")[0]),
+            processData: false,
+            contentType: false,
+            headers:{'jwt_token': localStorage.getItem("jwt_token")},
+            success:function(data){
+                console.log(data);
+                if(data.code === 200){
+                    var url = data.content.headProfilePath;
+                    $("#photo").attr("src", url);
+                }
+            }
+        })
+    }
+</script>
+</html>

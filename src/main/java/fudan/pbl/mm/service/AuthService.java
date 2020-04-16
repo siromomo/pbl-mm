@@ -9,15 +9,23 @@ import fudan.pbl.mm.repository.UserRepository;
 import fudan.pbl.mm.controller.request.RegisterRequest;
 import fudan.pbl.mm.security.jwt.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 public class AuthService {
     private UserRepository userRepository;
     private AuthorityRepository authorityRepository;
+
+    @Value("${file.uploadFolder}")
+    private String FILE_BASE_PATH = "D:" + File.separator + "web3d_head_profiles";
 
     @Autowired
     public AuthService(UserRepository userRepository,
@@ -97,5 +105,39 @@ public class AuthService {
         return new ResponseObject<>(200, "success", user);
     }
 
+    public ResponseObject setProfilePhoto(String username, MultipartFile file, String basePath){
+        User user = userRepository.findByUsername(username);
+        if(user == null) return new ResponseObject<>(404, "user does not exist", null);
+        File base = new File(FILE_BASE_PATH);
+        if(!base.exists()) base.mkdir();
+        String fileName = file.getOriginalFilename();
+        if(fileName == null){
+            return new ResponseObject<>(404, "file does not have name", null);
+        }
+        if(fileName.contains(File.separator)){
+            String[] temp = fileName.split("\\\\");
+            fileName = temp[temp.length-1];
+        }
+        String suffixName = fileName.substring(fileName.lastIndexOf("."));  // 后缀名
+        if(!suffixName.equals(".jpg") && !suffixName.equals(".png") && !suffixName.equals("jpeg")
+            && !suffixName.equals(".gif")){
+            return new ResponseObject<>(400, "file type invalid", null);
+        }
+        fileName = UUID.randomUUID().toString() + suffixName;
+        String destName = FILE_BASE_PATH + fileName;
+        File dest = new File(destName);
+        try {
+            file.transferTo(dest);
+        } catch (IOException e) {
+            return new ResponseObject<>(500, e.getMessage(), null);
+        }
+        fileName = basePath + "/image/" + fileName;
+        user.setHeadProfilePath(fileName);
+        userRepository.save(user);
+        return new ResponseObject<>(200, "success", user);
+    }
 
+    public ResponseObject<User> getUserInfo(String username){
+        return new ResponseObject<>(200, "success", userRepository.findByUsername(username));
+    }
 }
