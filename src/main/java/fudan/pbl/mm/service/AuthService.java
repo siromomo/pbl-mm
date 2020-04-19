@@ -26,6 +26,7 @@ public class AuthService {
 
     @Value("${file.uploadFolder}")
     private String FILE_BASE_PATH = "D:" + File.separator + "web3d_head_profiles";
+    private final static String MAIL_REGEX = "^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$";
 
     @Autowired
     public AuthService(UserRepository userRepository,
@@ -36,8 +37,20 @@ public class AuthService {
 
     public ResponseObject<User> register(RegisterRequest request) {
         String username = request.getUsername();
+        if(userRepository.findByUsername(username) != null){
+            return new ResponseObject<>(400, "user has exist", null);
+        }
+        if(username.length() == 0){
+            return new ResponseObject<>(400, "username should be filled", null);
+        }
         String password = request.getPassword();
+        if(password == null || password.length() == 0){
+            return new ResponseObject<>(400, "password should be filled", null);
+        }
         String email = request.getEmail();
+        if(email == null || !email.matches(MAIL_REGEX)){
+            return new ResponseObject<>(400, "invalid email", null);
+        }
         Set<String> authorities = request.getAuthorities();
         Set<Authority> authoritySet = new HashSet<>();
         if(authorities == null){
