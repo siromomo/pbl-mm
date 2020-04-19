@@ -40,11 +40,15 @@ public class AuthService {
         String email = request.getEmail();
         Set<String> authorities = request.getAuthorities();
         Set<Authority> authoritySet = new HashSet<>();
-        for(String authority : authorities){
-            if(!("Student".equals(authority) || "Teacher".equals(authority))){
-                return new ResponseObject<>(404, "authority is invalid", null);
+        if(authorities == null){
+            authoritySet.add(authorityRepository.findByAuthority("Student"));
+        }else {
+            for (String authority : authorities) {
+                if (!("Student".equals(authority) || "Teacher".equals(authority))) {
+                    return new ResponseObject<>(404, "authority is invalid", null);
+                }
+                authoritySet.add(authorityRepository.findByAuthority(authority));
             }
-            authoritySet.add(authorityRepository.findByAuthority(authority));
         }
         User user = new User();
         user.setUsername(username);
