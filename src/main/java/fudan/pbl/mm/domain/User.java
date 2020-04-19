@@ -21,6 +21,7 @@ public class User implements UserDetails {
     private int age;
     private String region;
     private String gender;
+    private String email;
     private String password;
     private String fullname;
     private String headProfilePath;
@@ -143,5 +144,13 @@ public class User implements UserDetails {
     public void removeFromCells(Cell cell){
         if(cell == null) return;
         cell.setUser(null);
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }

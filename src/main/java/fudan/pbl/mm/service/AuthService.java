@@ -1,13 +1,13 @@
 package fudan.pbl.mm.service;
 
-import fudan.pbl.mm.controller.request.LoginRequest;
+import fudan.pbl.mm.controller.request.auth.LoginRequest;
+import fudan.pbl.mm.controller.request.auth.ModifyInfoRequest;
 import fudan.pbl.mm.controller.response.ResponseObject;
 import fudan.pbl.mm.domain.Authority;
 import fudan.pbl.mm.repository.AuthorityRepository;
 import fudan.pbl.mm.domain.User;
 import fudan.pbl.mm.repository.UserRepository;
-import fudan.pbl.mm.controller.request.RegisterRequest;
-import fudan.pbl.mm.security.jwt.JwtTokenUtil;
+import fudan.pbl.mm.controller.request.auth.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -37,25 +37,45 @@ public class AuthService {
     public ResponseObject<User> register(RegisterRequest request) {
         String username = request.getUsername();
         String password = request.getPassword();
-        String fullName = request.getFullname();
-        int age = request.getAge();
-        String region = request.getRegion();
-        String gender = request.getGender();
+        String email = request.getEmail();
         Set<String> authorities = request.getAuthorities();
         Set<Authority> authoritySet = new HashSet<>();
-        ResponseObject<User> invalid = checkUserInfo(username, password, fullName, age, region, gender, authorities);
-        if(invalid != null) return invalid;
         for(String authority : authorities){
             if(!("Student".equals(authority) || "Teacher".equals(authority))){
                 return new ResponseObject<>(404, "authority is invalid", null);
             }
             authoritySet.add(authorityRepository.findByAuthority(authority));
         }
-        User user = new User(username, password, fullName, age, region, gender, authoritySet);
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setEmail(email);
+        user.setAuthorities(authoritySet);
         for(Authority authority : authoritySet){
             authority.getUsers().add(user);
             authorityRepository.save(authority);
         }
+        userRepository.save(user);
+        return new ResponseObject<>(200, "success", user);
+    }
+
+    public ResponseObject<User> modifyInformation(ModifyInfoRequest request){
+        User user = userRepository.findByUsername(request.getUsername());
+        if(user == null){
+            return new ResponseObject<>(404, "user not exist", null);
+        }
+        if(!user.getPassword().equals(request.getOriginalPassword())){
+            return new ResponseObject<>(403, "password is incorrect", null);
+        }
+        if(request.getEmail() != null && request.getEmail().length() > 0)
+            user.setEmail(request.getEmail());
+        if(request.getNewPassword() != null && request.getNewPassword().length() > 0)
+            user.setPassword(request.getNewPassword());
+        user.setAge(request.getAge());
+        user.setFullname(request.getFullName());
+        user.setGender(request.getGender());
+        user.setRegion(request.getRegion());
+        user.setAge(request.getAge());
         userRepository.save(user);
         return new ResponseObject<>(200, "success", user);
     }
@@ -72,7 +92,7 @@ public class AuthService {
             return new ResponseObject<>(404, "password should be filled in", null);
         }
         if(fullName == null || fullName.length() == 0){
-            return new ResponseObject<>(404, "fullname should be filled in", null);
+            return new ResponseObject<>(404, "full name should be filled in", null);
         }
         if(region == null || region.length() == 0){
             return new ResponseObject<>(404, "region should be filled in" ,null);

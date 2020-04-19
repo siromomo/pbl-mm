@@ -1,11 +1,12 @@
 package fudan.pbl.mm.controller;
 
-import fudan.pbl.mm.controller.request.LoginRequest;
+import fudan.pbl.mm.controller.request.auth.LoginRequest;
+import fudan.pbl.mm.controller.request.auth.ModifyInfoRequest;
 import fudan.pbl.mm.controller.response.ResponseObject;
 import fudan.pbl.mm.domain.User;
 import fudan.pbl.mm.security.jwt.JwtTokenUtil;
 import fudan.pbl.mm.service.AuthService;
-import fudan.pbl.mm.controller.request.RegisterRequest;
+import fudan.pbl.mm.controller.request.auth.RegisterRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -84,6 +84,11 @@ public class AuthController {
             return ResponseEntity.ok(new ResponseObject<>(404, "jwt token invalid", null));
         }
         return ResponseEntity.ok(authService.getUserInfo(username));
+    }
+
+    @RequestMapping("/modifyInformation")
+    public ResponseEntity<?> modifyInformation(@RequestBody ModifyInfoRequest request){
+        return ResponseEntity.ok(authService.modifyInformation(request));
     }
 
 }
