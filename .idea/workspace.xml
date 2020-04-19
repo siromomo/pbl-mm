@@ -2,25 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d2ab5fa0-ca76-4ef7-a944-35de4c25c621" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/uploadPhoto.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/config/UploadFilePathConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_session_spring_session_unknown.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/domain/ChoiceQuestion.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/repository/ChoiceQuestionRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/service/ChoiceQuestionService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/fudan/pbl/mm/service/ChoiceQuestionServiceTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/chooseCell.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/chooseCell.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/domain/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/domain/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/security/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/service/AuthService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/web_pj.kotlin_module" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fudan/pbl/mm/controller/AuthController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fudan/pbl/mm/controller/AuthController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fudan/pbl/mm/domain/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fudan/pbl/mm/domain/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fudan/pbl/mm/security/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fudan/pbl/mm/security/SecurityConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fudan/pbl/mm/service/AuthService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fudan/pbl/mm/service/AuthService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web_pj.iml" beforeDir="false" afterPath="$PROJECT_DIR$/web_pj.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -31,9 +17,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="HTML File" />
         <option value="Class" />
+        <option value="Interface" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
@@ -56,13 +43,23 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1586829726425" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../软件质量保障/DiscountTest" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="JavaScript.Libraries" />
     <property name="show.run.dashboard.notification" value="false" />
   </component>
-  <component name="RunManager" selected="Spring Boot.Application">
+  <component name="RecentsManager">
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="fudan.pbl.mm.service" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.ChoiceQuestionServiceTest.read">
     <configuration name="ApplicationTests.testRegisterAndLogin" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="web_pj" />
       <extension name="coverage">
@@ -74,6 +71,22 @@
       <option name="PACKAGE_NAME" value="fudan.pbl.mm" />
       <option name="MAIN_CLASS_NAME" value="fudan.pbl.mm.ApplicationTests" />
       <option name="METHOD_NAME" value="testRegisterAndLogin" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ChoiceQuestionServiceTest.read" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="web_pj" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="fudan.pbl.mm.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="fudan.pbl.mm.service" />
+      <option name="MAIN_CLASS_NAME" value="fudan.pbl.mm.service.ChoiceQuestionServiceTest" />
+      <option name="METHOD_NAME" value="read" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -95,6 +108,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.ChoiceQuestionServiceTest.read" />
         <item itemvalue="JUnit.ApplicationTests.testRegisterAndLogin" />
       </list>
     </recent_temporary>
@@ -141,32 +155,13 @@
       <workItem from="1586788876441" duration="284000" />
       <workItem from="1586789554711" duration="1706000" />
       <workItem from="1586827352166" duration="2481000" />
-      <workItem from="1587047812515" duration="762000" />
+      <workItem from="1587047812515" duration="1366000" />
+      <workItem from="1587093252748" duration="21000" />
+      <workItem from="1587110886056" duration="735000" />
+      <workItem from="1587202207509" duration="332000" />
+      <workItem from="1587216894781" duration="3822000" />
     </task>
     <servers />
-  </component>
-  <component name="TestHistory">
-    <history-entry file="ApplicationTests_testRegisterAndLogin - 2020.04.05 at 11h 02m 31s.xml">
-      <configuration name="ApplicationTests.testRegisterAndLogin" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="ApplicationTests_testRegisterAndLogin - 2020.04.05 at 11h 04m 37s.xml">
-      <configuration name="ApplicationTests.testRegisterAndLogin" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="ApplicationTests_testRegisterAndLogin - 2020.04.05 at 11h 23m 14s.xml">
-      <configuration name="ApplicationTests.testRegisterAndLogin" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="ApplicationTests_testRegisterAndLogin - 2020.04.05 at 11h 33m 40s.xml">
-      <configuration name="ApplicationTests.testRegisterAndLogin" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="ApplicationTests_testRegisterAndLogin - 2020.04.05 at 11h 34m 42s.xml">
-      <configuration name="ApplicationTests.testRegisterAndLogin" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="ApplicationTests_testRegisterAndLogin - 2020.04.05 at 15h 47m 45s.xml">
-      <configuration name="ApplicationTests.testRegisterAndLogin" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="ApplicationTests_testRegisterAndLogin - 2020.04.12 at 16h 02m 43s.xml">
-      <configuration name="ApplicationTests.testRegisterAndLogin" configurationId="JUnit" />
-    </history-entry>
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -179,6 +174,48 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="2" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state width="1493" height="295" key="GridCell.Tab.0.bottom" timestamp="1587221580441">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="295" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1587221580441" />
+    <state width="1493" height="295" key="GridCell.Tab.0.center" timestamp="1587221580441">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="295" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1587221580441" />
+    <state width="1493" height="295" key="GridCell.Tab.0.left" timestamp="1587221580441">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="295" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1587221580441" />
+    <state width="1493" height="295" key="GridCell.Tab.0.right" timestamp="1587221580441">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="295" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1587221580441" />
+    <state width="899" height="301" key="GridCell.Tab.1.bottom" timestamp="1587219878725">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="899" height="301" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1587219878725" />
+    <state width="899" height="301" key="GridCell.Tab.1.center" timestamp="1587219878725">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="899" height="301" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1587219878725" />
+    <state width="899" height="301" key="GridCell.Tab.1.left" timestamp="1587219878725">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="899" height="301" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1587219878725" />
+    <state width="899" height="301" key="GridCell.Tab.1.right" timestamp="1587219878725">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="899" height="301" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1587219878725" />
+    <state x="831" y="207" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1587218412716">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="831" y="207" key="com.intellij.testIntegration.createTest.CreateTestDialog/0.0.1536.824@0.0.1536.824" timestamp="1587218412715" />
+    <state x="721" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1587219340721">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="721" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1587219340721" />
   </component>
   <component name="masterDetails">
     <states>
