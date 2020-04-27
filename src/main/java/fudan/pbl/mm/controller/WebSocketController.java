@@ -74,8 +74,8 @@ public class WebSocketController {
         if(!cell.isActive()) return;
         Position position = new Position(message.getX(), message.getY(), message.getZ());
         cellPositionMap.put(cell, position);
-        messagingTemplate.convertAndSend("/topic/positionToAll",
-                new ResponseObject<>(200, "success", message));
+        /*messagingTemplate.convertAndSend("/topic/positionToAll",
+                new ResponseObject<>(200, "success", message));*/
         // 订阅 /topic/positionToAll 实现公告
         checkVirus(cell);
         sendUpdateCellAndVirusResp();
@@ -123,13 +123,12 @@ public class WebSocketController {
                 if(virus.getLevel() > cell.getLevel()){
                     cellPositionMap.remove(cell);
                     cell.setActive(false);
-                    cellRepository.save(cell);
                 }else{
                     virusPositionMap.remove(virus);
                     int level = cell.getLevel();
                     cell.setLevel(level+1);
-                    cellRepository.save(cell);
                 }
+                cellRepository.save(cell);
             }
         }
         while(virusPositionMap.keySet().size() < CellService.INIT_VIRUS_NUM){

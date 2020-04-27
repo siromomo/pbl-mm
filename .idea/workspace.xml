@@ -2,8 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d2ab5fa0-ca76-4ef7-a944-35de4c25c621" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/domain/CellInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/repository/CellInfoRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/service/CellInfoService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/fudan/pbl/mm/service/CellInfoServiceTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/service/AuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/controller/WebSocketController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/controller/WebSocketController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fudan/pbl/mm/controller/WebSocketController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fudan/pbl/mm/controller/WebSocketController.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,8 +20,8 @@
       <list>
         <option value="HTML File" />
         <option value="Interface" />
-        <option value="JUnit5 Test Class" />
         <option value="Class" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
@@ -41,7 +46,7 @@
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1586829726425" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../软件质量保障/DiscountTest" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../lab2/Lab2.2_Docs-Three.js-Socket.io" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="JavaScript.Libraries" />
@@ -55,7 +60,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.Application">
+  <component name="RunManager" selected="JUnit.CellInfoServiceTest.initCellInfo">
     <configuration name="ApplicationTests.testRegisterAndLogin" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="web_pj" />
       <extension name="coverage">
@@ -67,6 +72,22 @@
       <option name="PACKAGE_NAME" value="fudan.pbl.mm" />
       <option name="MAIN_CLASS_NAME" value="fudan.pbl.mm.ApplicationTests" />
       <option name="METHOD_NAME" value="testRegisterAndLogin" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CellInfoServiceTest.initCellInfo" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="web_pj" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="fudan.pbl.mm.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="fudan.pbl.mm.service" />
+      <option name="MAIN_CLASS_NAME" value="fudan.pbl.mm.service.CellInfoServiceTest" />
+      <option name="METHOD_NAME" value="initCellInfo" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -104,6 +125,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.CellInfoServiceTest.initCellInfo" />
         <item itemvalue="JUnit.ChoiceQuestionServiceTest.read" />
         <item itemvalue="JUnit.ApplicationTests.testRegisterAndLogin" />
       </list>
@@ -157,7 +179,11 @@
       <workItem from="1587202207509" duration="332000" />
       <workItem from="1587216894781" duration="3822000" />
       <workItem from="1587285972282" duration="3366000" />
-      <workItem from="1587309900093" duration="293000" />
+      <workItem from="1587309900093" duration="997000" />
+      <workItem from="1587351610619" duration="31000" />
+      <workItem from="1587717894739" duration="3967000" />
+      <workItem from="1587784314640" duration="10855000" />
+      <workItem from="1587867036757" duration="61000" />
     </task>
     <servers />
   </component>
@@ -174,42 +200,50 @@
     <option name="version" value="2" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1493" height="340" key="GridCell.Tab.0.bottom" timestamp="1587297088640">
+    <state x="550" y="168" key="FileChooserDialogImpl" timestamp="1587867074618">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="340" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1587297088640" />
-    <state width="1493" height="340" key="GridCell.Tab.0.center" timestamp="1587297088640">
+    <state x="550" y="168" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1587867074618" />
+    <state width="1493" height="338" key="GridCell.Tab.0.bottom" timestamp="1587829370100">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="340" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1587297088640" />
-    <state width="1493" height="340" key="GridCell.Tab.0.left" timestamp="1587297088640">
+    <state width="1493" height="338" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1587829370100" />
+    <state width="1493" height="338" key="GridCell.Tab.0.center" timestamp="1587829370100">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="340" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1587297088640" />
-    <state width="1493" height="340" key="GridCell.Tab.0.right" timestamp="1587297088640">
+    <state width="1493" height="338" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1587829370100" />
+    <state width="1493" height="338" key="GridCell.Tab.0.left" timestamp="1587829370100">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="340" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1587297088640" />
-    <state width="1493" height="340" key="GridCell.Tab.1.bottom" timestamp="1587297088640">
+    <state width="1493" height="338" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1587829370100" />
+    <state width="1493" height="338" key="GridCell.Tab.0.right" timestamp="1587829370100">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="340" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1587297088640" />
-    <state width="1493" height="340" key="GridCell.Tab.1.center" timestamp="1587297088640">
+    <state width="1493" height="338" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1587829370100" />
+    <state width="1493" height="338" key="GridCell.Tab.1.bottom" timestamp="1587829370095">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="340" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1587297088640" />
-    <state width="1493" height="340" key="GridCell.Tab.1.left" timestamp="1587297088640">
+    <state width="1493" height="338" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1587829370095" />
+    <state width="1493" height="338" key="GridCell.Tab.1.center" timestamp="1587829370095">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="340" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1587297088640" />
-    <state width="1493" height="340" key="GridCell.Tab.1.right" timestamp="1587297088640">
+    <state width="1493" height="338" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1587829370095" />
+    <state width="1493" height="338" key="GridCell.Tab.1.left" timestamp="1587829370095">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="340" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1587297088640" />
-    <state x="831" y="207" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1587218412716">
+    <state width="1493" height="338" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1587829370095" />
+    <state width="1493" height="338" key="GridCell.Tab.1.right" timestamp="1587829370095">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="831" y="207" key="com.intellij.testIntegration.createTest.CreateTestDialog/0.0.1536.824@0.0.1536.824" timestamp="1587218412715" />
+    <state width="1493" height="338" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1587829370095" />
+    <state x="416" y="117" width="724" height="591" key="NewModule_or_Project.wizard" timestamp="1587867095084">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="416" y="117" width="724" height="591" key="NewModule_or_Project.wizard/0.0.1536.824@0.0.1536.824" timestamp="1587867095084" />
+    <state x="831" y="207" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1587828233877">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="831" y="207" key="com.intellij.testIntegration.createTest.CreateTestDialog/0.0.1536.824@0.0.1536.824" timestamp="1587828233877" />
     <state x="721" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1587219340721">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
