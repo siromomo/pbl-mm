@@ -16,6 +16,8 @@ public class Cell {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private static final int NUM_OF_TYPES = 8;
+
     @Column(unique = true)
     private String nickname;
     private String type;
@@ -23,6 +25,8 @@ public class Cell {
     @Column(columnDefinition = "boolean default true")
     private boolean active;
     private int initLevel;
+    @OneToOne
+    Pack pack;
 
     @ManyToOne
     @JoinColumn(name = "user_id",referencedColumnName="id")
@@ -39,6 +43,18 @@ public class Cell {
         this.level = level;
         this.initLevel = level;
         this.active = true;
+    }
+
+    public Pack getPack() {
+        return pack;
+    }
+
+    public void setPack(Pack pack) {
+        this.pack = pack;
+    }
+
+    public boolean isPackFilled(){
+        return pack.getCellInfoSet().size() >= NUM_OF_TYPES;
     }
 
     public int getInitLevel() {

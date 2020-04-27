@@ -1,5 +1,6 @@
 package fudan.pbl.mm.service;
 
+import fudan.pbl.mm.controller.response.ResponseObject;
 import fudan.pbl.mm.domain.CellInfo;
 import fudan.pbl.mm.repository.CellInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +40,13 @@ public class CellInfoService {
         cellInfoRepository.save(tCell);
         cellInfoRepository.save(bCell);
         cellInfoRepository.save(eatCell);
+    }
+
+    public ResponseObject<CellInfo> findCellInfoByType(String type){
+        CellInfo cellInfo = cellInfoRepository.findCellInfoByType(type);
+        if(cellInfo == null){
+            return new ResponseObject<>(404, "cell info can't be found", null);
+        }
+        return new ResponseObject<>(200, "success", cellInfo);
     }
 }

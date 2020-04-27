@@ -1,6 +1,7 @@
 package fudan.pbl.mm.controller;
 
 import fudan.pbl.mm.security.jwt.JwtTokenUtil;
+import fudan.pbl.mm.service.CellInfoService;
 import fudan.pbl.mm.service.CellService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,13 +16,15 @@ import javax.websocket.server.PathParam;
 public class CellController {
     private JwtTokenUtil jwtTokenUtil;
     private CellService cellService;
+    private CellInfoService cellInfoService;
 
     private Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     @Autowired
-    public CellController(JwtTokenUtil jwtTokenUtil, CellService cellService){
+    public CellController(JwtTokenUtil jwtTokenUtil, CellService cellService, CellInfoService cellInfoService){
         this.jwtTokenUtil = jwtTokenUtil;
         this.cellService = cellService;
+        this.cellInfoService = cellInfoService;
     }
 
     @RequestMapping("/addCellToUser")
@@ -43,4 +46,8 @@ public class CellController {
         return ResponseEntity.ok(cellService.findCellsByUser(username));
     }
 
+    @RequestMapping("/findCellInfoByType")
+    public ResponseEntity<?> findCellInfoByType(@RequestParam String type){
+        return ResponseEntity.ok(cellInfoService.findCellInfoByType(type));
+    }
 }

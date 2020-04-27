@@ -120,7 +120,7 @@ public class WebSocketController {
             Position virusPos = virusPositionMap.get(virus);
             if(virusPos.calculateDistance2d(cellPos) <= virus.getRadius()){
                 System.out.println("cell touched virus");
-                if(virus.getLevel() > cell.getLevel()){
+                if(!cell.isPackFilled()){
                     cellPositionMap.remove(cell);
                     cell.setActive(false);
                 }else{

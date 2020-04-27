@@ -1,6 +1,9 @@
 package fudan.pbl.mm.domain;
 
+import antlr.collections.List;
+
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class CellInfo {
@@ -11,6 +14,9 @@ public class CellInfo {
     @Column(unique = true)
     private String type;
     private String info;
+
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "cellInfoSet")
+    private Set<Pack> packSet;
 
     public CellInfo(){}
     public CellInfo(String type, String info){
