@@ -5,12 +5,15 @@ import com.sun.deploy.nativesandbox.comm.Response;
 import fudan.pbl.mm.controller.WebSocketController;
 import fudan.pbl.mm.controller.response.ResponseObject;
 import fudan.pbl.mm.domain.Cell;
+import fudan.pbl.mm.domain.Pack;
 import fudan.pbl.mm.domain.Position;
 import fudan.pbl.mm.domain.User;
 import fudan.pbl.mm.repository.CellRepository;
+import fudan.pbl.mm.repository.PackRepository;
 import fudan.pbl.mm.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,12 +23,14 @@ import java.util.List;
 public class CellService {
     private UserRepository userRepository;
     private CellRepository cellRepository;
+    private PackRepository packRepository;
     public static final int CELL_INIT_MAX_LEVEL = 5;
     public static final int INIT_VIRUS_NUM = 5;
 
     @Autowired
-    public CellService(UserRepository userRepository, CellRepository cellRepository){
+    public CellService(UserRepository userRepository, CellRepository cellRepository, PackRepository packRepository){
         this.userRepository = userRepository;
+        this.packRepository = packRepository;
         this.cellRepository = cellRepository;
     }
 
@@ -42,9 +47,13 @@ public class CellService {
         cell.setType(type);
         cell.setNickname(nickname);
         user.addToCells(cell);
+        Pack pack = new Pack();
+        pack.setCell(cell);
+        cell.setPack(pack);
         WebSocketController.cellPositionMap.put(cell, new Position());
         cellRepository.save(cell);
         userRepository.save(user);
+        packRepository.save(pack);
         return new ResponseObject<>(200, "success", cell);
     }
 
