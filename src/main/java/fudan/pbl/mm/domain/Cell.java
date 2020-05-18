@@ -25,7 +25,7 @@ public class Cell {
     @Column(columnDefinition = "boolean default true")
     private boolean active;
     private int initLevel;
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     Pack pack;
 
     @ManyToOne

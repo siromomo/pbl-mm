@@ -15,21 +15,18 @@ public class Pack {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<CellInfo> cellInfoSet;
-    @OneToOne
+    @OneToMany
     @JsonIgnore
-    private Cell cell;
+    private Set<Cell> cell;
 
     public Pack(){}
-    public Pack(Cell cell){
+
+    public void setCell(Set<Cell> cell) {
         this.cell = cell;
     }
 
-    public Cell getCell() {
+    public Set<Cell> getCell() {
         return cell;
-    }
-
-    public void setCell(Cell cell) {
-        this.cell = cell;
     }
 
     public Set<CellInfo> getCellInfoSet() {

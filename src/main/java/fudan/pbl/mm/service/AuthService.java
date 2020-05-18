@@ -10,6 +10,7 @@ import fudan.pbl.mm.repository.UserRepository;
 import fudan.pbl.mm.controller.request.auth.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,6 +28,7 @@ public class AuthService {
     @Value("${file.uploadFolder}")
     private String FILE_BASE_PATH = "D:" + File.separator + "web3d_head_profiles";
     private final static String MAIL_REGEX = "^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$";
+    private static BCryptPasswordEncoder encoder =new BCryptPasswordEncoder();
 
     @Autowired
     public AuthService(UserRepository userRepository,
@@ -65,7 +67,7 @@ public class AuthService {
         }
         User user = new User();
         user.setUsername(username);
-        user.setPassword(password);
+        user.setPassword(encoder.encode(password));
         user.setEmail(email);
         user.setAuthorities(authoritySet);
         for(Authority authority : authoritySet){
@@ -87,7 +89,7 @@ public class AuthService {
         if(request.getEmail() != null && request.getEmail().length() > 0)
             user.setEmail(request.getEmail());
         if(request.getNewPassword() != null && request.getNewPassword().length() > 0)
-            user.setPassword(request.getNewPassword());
+            user.setPassword(encoder.encode(request.getNewPassword()));
         user.setAge(request.getAge());
         user.setFullname(request.getFullName());
         user.setGender(request.getGender());
@@ -136,10 +138,14 @@ public class AuthService {
         if(user == null){
             return new ResponseObject<>(404, "user does not exist", null);
         }
-        if(password == null || !password.equals(user.getPassword())){
+        if(password == null || !checkPwd(password, user.getPassword())){
             return new ResponseObject<>(403, "password is incorrect", null);
         }
         return new ResponseObject<>(200, "success", user);
+    }
+
+    private boolean checkPwd(String myPwd, String pwd){
+        return myPwd.equals(pwd) || encoder.matches(myPwd, pwd);
     }
 
     public ResponseObject setProfilePhoto(String username, MultipartFile file, String basePath){
