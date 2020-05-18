@@ -38,6 +38,10 @@ public class ChoiceQuestionService {
         return new ResponseObject<>(200, "success", null);
     }
 
+    public ResponseObject<ChoiceQuestion> getRandomQuestion(){
+        return new ResponseObject<>(200, "success", choiceQuestionRepository.findRandomQuestion());
+    }
+
     void read(){
         File file = new File("D://ques.txt");
         Set<String> keywords = new HashSet<>();
