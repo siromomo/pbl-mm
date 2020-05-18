@@ -25,7 +25,7 @@ public class Cell {
     @Column(columnDefinition = "boolean default true")
     private boolean active;
     private int initLevel;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     Pack pack;
 
     @ManyToOne
@@ -53,8 +53,9 @@ public class Cell {
         this.pack = pack;
     }
 
-    public boolean isPackFilled(){
-        return pack.getCellInfoSet().size() >= NUM_OF_TYPES;
+    public boolean isPackFilled() {
+        return pack.getCellInfoSet() != null
+     && pack.getCellInfoSet().size() >= NUM_OF_TYPES;
     }
 
     public int getInitLevel() {

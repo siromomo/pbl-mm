@@ -15,7 +15,7 @@ public class CellInfo {
     private String type;
     private String info;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "cellInfoSet")
+    @ManyToMany(mappedBy = "cellInfoSet")
     private Set<Pack> packSet;
 
     public CellInfo(){}

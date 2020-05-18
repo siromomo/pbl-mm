@@ -1,6 +1,8 @@
 package fudan.pbl.mm.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,9 +13,10 @@ public class Pack {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     private Set<CellInfo> cellInfoSet;
     @OneToOne
+    @JsonIgnore
     private Cell cell;
 
     public Pack(){}

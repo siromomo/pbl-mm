@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,11 +51,19 @@ public class CellService {
         Pack pack = new Pack();
         pack.setCell(cell);
         cell.setPack(pack);
+        savePackAndCell(pack, cell);
+        cell = cellRepository.findCellByNickname(nickname);
         WebSocketController.cellPositionMap.put(cell, new Position());
-        cellRepository.save(cell);
+
         userRepository.save(user);
-        packRepository.save(pack);
+
         return new ResponseObject<>(200, "success", cell);
+    }
+
+    @Transactional
+    void savePackAndCell(Pack pack, Cell cell){
+        cellRepository.save(cell);
+        packRepository.save(pack);
     }
 
     public ResponseObject<Cell> restartCell(String cellId, String username){
