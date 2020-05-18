@@ -54,7 +54,7 @@ public class Cell {
     }
 
     public boolean isPackFilled() {
-        return pack.getCellInfoSet() != null
+        return pack != null && pack.getCellInfoSet() != null
      && pack.getCellInfoSet().size() >= NUM_OF_TYPES;
     }
 

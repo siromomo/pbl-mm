@@ -13,7 +13,7 @@ public class Pack {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<CellInfo> cellInfoSet;
     @OneToOne
     @JsonIgnore
