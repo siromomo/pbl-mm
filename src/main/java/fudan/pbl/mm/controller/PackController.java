@@ -20,4 +20,9 @@ public class PackController {
     public ResponseEntity<?> collectCellInfo(@RequestParam long cellId, @RequestParam String cellInfoType){
         return ResponseEntity.ok(packService.collectCellInfo(cellInfoType, cellId));
     }
+
+    @RequestMapping("/getCellInfoHasCollected")
+    public ResponseEntity<?> getCellInfoHashCollected(@RequestParam long cellId){
+        return ResponseEntity.ok(packService.getCellInfoHasCollected(cellId));
+    }
 }

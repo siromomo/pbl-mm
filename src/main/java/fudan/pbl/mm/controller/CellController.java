@@ -1,5 +1,8 @@
 package fudan.pbl.mm.controller;
 
+import fudan.pbl.mm.controller.response.ResponseObject;
+import fudan.pbl.mm.domain.Cell;
+import fudan.pbl.mm.domain.Position;
 import fudan.pbl.mm.security.jwt.JwtTokenUtil;
 import fudan.pbl.mm.service.CellInfoService;
 import fudan.pbl.mm.service.CellService;
@@ -31,7 +34,9 @@ public class CellController {
     public ResponseEntity<?> addCellToUser(@RequestParam String type, @RequestParam String nickname,
                                            @RequestHeader String jwt_token){
         String username = jwtTokenUtil.getUsernameFromToken(jwt_token);
-        return ResponseEntity.ok(cellService.addCellToUser(type, nickname, username));
+        ResponseObject<Cell> newCell = cellService.addCellToUser(type, nickname, username);
+        WebSocketController.cellPositionMap.put(newCell.getContent(), new Position());
+        return ResponseEntity.ok(newCell);
     }
 
     @RequestMapping("/restartCell")

@@ -33,7 +33,7 @@
     <span class="virus" id="virus3"></span>
     <span class="virus" id="virus4"></span>
     <span class="virus" id="virus5"></span>
-    <span class="cell" id="cell"></span>
+
 </div>
 <div id="chats">
 
@@ -75,10 +75,12 @@
                     $("#virus" + i).css("top", (pos.x * 5) + "px");
                     $("#virus" + i).css("left", (pos.y * 5) + "px");
                 }
+                i = 0;
                 for(var cell in cellMap){
                     var pos = cellMap[cell];
-                    $("#cell").css("top", (pos.x * 5) + "px");
-                    $("#cell").css("left", (pos.y * 5) + "px");
+                    $("#cells").append("<span class=\"cell\" id=\"cell" + i + "\"></span>")
+                    $("#cell" + i).css("top", (pos.x * 5) + "px");
+                    $("#cell" + i).css("left", (pos.y * 5) + "px");
                     break;
                 }
             });

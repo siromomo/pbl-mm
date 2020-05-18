@@ -2,12 +2,15 @@ package fudan.pbl.mm.service;
 
 import fudan.pbl.mm.controller.response.ResponseObject;
 import fudan.pbl.mm.domain.Cell;
+import fudan.pbl.mm.domain.CellInfo;
 import fudan.pbl.mm.domain.Pack;
 import fudan.pbl.mm.repository.CellInfoRepository;
 import fudan.pbl.mm.repository.CellRepository;
 import fudan.pbl.mm.repository.PackRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
 
 @Service
 public class PackService {
@@ -29,5 +32,11 @@ public class PackService {
         pack.addToCellInfoSet(cellInfoRepository.findCellInfoByType(cellInfoType));
         packRepository.save(pack);
         return new ResponseObject<>(200, "success", null);
+    }
+
+    public ResponseObject<Set<CellInfo>> getCellInfoHasCollected(Long cellId){
+        Cell cell = cellRepository.findCellById(cellId);
+        Pack pack = packRepository.findPackByCell(cell);
+        return new ResponseObject<>(200, "success", pack.getCellInfoSet());
     }
 }
