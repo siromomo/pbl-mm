@@ -24,6 +24,8 @@ public class Cell {
     private int level;
     @Column(columnDefinition = "boolean default true")
     private boolean active;
+    @Column(columnDefinition = "int(11) default 100")
+    private int hp;
     private int initLevel;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "pack_id", referencedColumnName = "id")
@@ -37,6 +39,7 @@ public class Cell {
         this.level = (int)(Math.random() * CELL_INIT_MAX_LEVEL);
         this.initLevel = level;
         this.active = true;
+        this.hp = 100;
     }
     public Cell(String type, String nickname, int level){
         this.type = type;
@@ -44,6 +47,7 @@ public class Cell {
         this.level = level;
         this.initLevel = level;
         this.active = true;
+        this.hp = 100;
     }
 
     public Pack getPack() {
@@ -113,6 +117,14 @@ public class Cell {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
     }
 
     @Override

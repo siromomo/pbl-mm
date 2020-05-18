@@ -118,11 +118,15 @@ public class WebSocketController {
         Position cellPos = cellPositionMap.get(cell);
         for(Virus virus : virusPositionMap.keySet()){
             Position virusPos = virusPositionMap.get(virus);
-            if(virusPos.calculateDistance2d(cellPos) <= virus.getRadius()){
+            if(virusPos.calculateDistance(cellPos) <= virus.getRadius()){
                 System.out.println("cell touched virus");
                 if(!cell.isPackFilled()){
-                    cellPositionMap.remove(cell);
-                    cell.setActive(false);
+                    cell.setHp(cell.getHp() - 10);
+                    if(cell.getHp() <= 0){
+                        cell.setActive(false);
+                        cellPositionMap.remove(cell);
+                    }
+                    cellRepository.save(cell);
                 }else{
                     virusPositionMap.remove(virus);
                     int level = cell.getLevel();

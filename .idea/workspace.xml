@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d2ab5fa0-ca76-4ef7-a944-35de4c25c621" name="Default Changelist" comment="" />
+    <list default="true" id="d2ab5fa0-ca76-4ef7-a944-35de4c25c621" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/domain/Cell.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/domain/Cell.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -182,7 +184,7 @@
       <workItem from="1587867036757" duration="61000" />
       <workItem from="1587957191103" duration="7307000" />
       <workItem from="1588047012736" duration="51000" />
-      <workItem from="1589768666888" duration="15504000" />
+      <workItem from="1589768666888" duration="15831000" />
     </task>
     <servers />
   </component>
