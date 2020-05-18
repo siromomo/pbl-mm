@@ -1,7 +1,5 @@
 package fudan.pbl.mm.service;
 
-import com.google.common.collect.Lists;
-import com.sun.deploy.nativesandbox.comm.Response;
 import fudan.pbl.mm.controller.WebSocketController;
 import fudan.pbl.mm.controller.response.ResponseObject;
 import fudan.pbl.mm.domain.Cell;
@@ -12,12 +10,9 @@ import fudan.pbl.mm.repository.CellRepository;
 import fudan.pbl.mm.repository.PackRepository;
 import fudan.pbl.mm.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -48,11 +43,12 @@ public class CellService {
         cell.setType(type);
         cell.setNickname(nickname);
         user.addToCells(cell);
-        Pack pack = new Pack();
-        pack.setCell(cell);
-        cell.setPack(pack);
-        savePackAndCell(pack, cell);
+        Pack pack = packRepository.findPackByIdGreaterThan(60L);
+        cellRepository.save(cell);
         cell = cellRepository.findCellByNickname(nickname);
+        cell.setPack(pack);
+        pack.addToCells(cell);
+        savePackAndCell(pack, cell);
         WebSocketController.cellPositionMap.put(cell, new Position());
 
         userRepository.save(user);

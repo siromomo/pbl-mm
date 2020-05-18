@@ -28,7 +28,7 @@ public class PackService {
 
     public ResponseObject<?> collectCellInfo(String cellInfoType, Long cellId){
         Cell cell = cellRepository.findCellById(cellId);
-        Pack pack = packRepository.findPackByCell(cell);
+        Pack pack = packRepository.findPackByCellsContaining(cell);
         pack.addToCellInfoSet(cellInfoRepository.findCellInfoByType(cellInfoType));
         packRepository.save(pack);
         return new ResponseObject<>(200, "success", null);
@@ -36,7 +36,7 @@ public class PackService {
 
     public ResponseObject<Set<CellInfo>> getCellInfoHasCollected(Long cellId){
         Cell cell = cellRepository.findCellById(cellId);
-        Pack pack = packRepository.findPackByCell(cell);
+        Pack pack = packRepository.findPackByCellsContaining(cell);
         return new ResponseObject<>(200, "success", pack.getCellInfoSet());
     }
 }

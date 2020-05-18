@@ -26,6 +26,7 @@ public class Cell {
     private boolean active;
     private int initLevel;
     @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "pack_id", referencedColumnName = "id")
     Pack pack;
 
     @ManyToOne

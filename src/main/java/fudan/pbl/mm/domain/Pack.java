@@ -17,16 +17,21 @@ public class Pack {
     private Set<CellInfo> cellInfoSet;
     @OneToMany
     @JsonIgnore
-    private Set<Cell> cell;
+    private Set<Cell> cells;
 
     public Pack(){}
 
-    public void setCell(Set<Cell> cell) {
-        this.cell = cell;
+    public void setCells(Set<Cell> cell) {
+        this.cells = cell;
     }
 
-    public Set<Cell> getCell() {
-        return cell;
+    public Set<Cell> getCells() {
+        return cells;
+    }
+
+    public void addToCells(Cell cell){
+        if(this.cells == null) this.cells = new HashSet<>();
+        this.cells.add(cell);
     }
 
     public Set<CellInfo> getCellInfoSet() {

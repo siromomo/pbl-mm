@@ -7,5 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PackRepository extends CrudRepository<Pack, Long> {
-    Pack findPackByCell(Cell cell);
+    Pack findPackByCellsContaining(Cell cell);
+    Pack findPackByIdGreaterThan(Long id);
 }
