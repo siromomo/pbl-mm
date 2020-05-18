@@ -7,9 +7,11 @@ public class Position {
     private int x;
     private int y;
     private int z;
+    private float rotation;
     private int lastRand;
 
     private static final int POSITION_BOUND = 100;
+    private static final float ROTATION_BOUND = 360;
 
     public Position() {
         setRandomPosition();
@@ -51,6 +53,7 @@ public class Position {
         x = (int)(POSITION_BOUND * Math.random());
         y = (int)(POSITION_BOUND * Math.random());
         z = (int)(POSITION_BOUND * Math.random());
+        rotation = (float)(ROTATION_BOUND * Math.random());
     }
 
     public void randomUpdate(){
@@ -85,4 +88,14 @@ public class Position {
     public double calculateDistance2d(Position p1){
         return Math.pow(Math.pow((p1.x - x),2) + Math.pow((p1.y - y), 2), 0.5);
     }
+
+
+    public float getRotation() {
+        return rotation;
+    }
+
+    public void setRotation(float rotation) {
+        this.rotation = rotation;
+    }
+
 }

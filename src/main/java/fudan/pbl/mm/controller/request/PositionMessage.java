@@ -4,6 +4,7 @@ public class PositionMessage {
     private int x;
     private int y;
     private int z;
+    private float rotation;
     private long objectId;
 
     public PositionMessage(){}
@@ -12,6 +13,14 @@ public class PositionMessage {
         this.y = y;
         this.z = z;
         this.objectId = objectId;
+    }
+
+    public void setRotation(float rotation) {
+        this.rotation = rotation;
+    }
+
+    public float getRotation() {
+        return rotation;
     }
 
     public long getObjectId() {
