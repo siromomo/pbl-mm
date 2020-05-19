@@ -103,6 +103,11 @@ public class WebSocketController {
         // 订阅 /user/userId/toOne 实现点对点
     }
 
+    @MessageMapping("/chatMessageToAll")
+    public void sendMessageToAll(ChatMessage message){
+        messagingTemplate.convertAndSend("/topic/toAll", message);
+    }
+
     @Scheduled(fixedRate = 1000)
     public void updateVirus(){
         for(Virus virus : virusPositionMap.keySet()){

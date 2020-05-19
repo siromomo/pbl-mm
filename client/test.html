@@ -44,6 +44,8 @@
     y: <input type="text" name="y" id="y"><br>
     z: <input type="text" name="z" id="z"><br>
     <button onclick="send()">change position</button>
+    msg: <input type="text" id="msg">
+    <button onclick="sendMsg()">send message</button>
 </div>
 <script>
     var rootPath = "http://localhost:8080";
@@ -89,6 +91,10 @@
             function (dd) {
                 //showMsg(JSON.parse(dd.body));
             });
+        stompClient.subscribe("/topic/toAll",
+        function (dd) {
+            console.log(dd.body);
+        })
     });
 
     function send() {
@@ -100,6 +106,16 @@
         };
         stompClient.send("/app/updatePosition", {},
             JSON.stringify(webMsg));
+    }
+
+    function sendMsg() {
+        var msg = {
+            'toId': -1,
+            'fromId': localStorage.getItem("user_id"),
+            'content': $("#msg").val()
+        };
+        stompClient.send("/app/chatMessageToAll", {},
+        JSON.stringify(msg));
     }
 
 

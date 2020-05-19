@@ -68,6 +68,7 @@ public class Position {
             case 1: y += timeFlag * POSITION_BOUND / 100; break;
             case 2: z += timeFlag * POSITION_BOUND / 100; break;
         }
+        rotation = (rotation + ((rand-1) * 5)) % ROTATION_BOUND;
         lastRand = rand;
         checkValid();
     }
