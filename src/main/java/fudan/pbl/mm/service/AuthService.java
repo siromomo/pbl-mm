@@ -190,6 +190,10 @@ public class AuthService {
         return new ResponseObject<>(200, "success", userRepository.findByUsername(username));
     }
 
+    public ResponseObject<String> findUserById(Long userId){
+        return new ResponseObject<>(200, "success", userRepository.findUserById(userId).getUsername());
+    }
+
     public ResponseObject<?> endGame(GameRecordRequest request){
         Set<User> users = new HashSet<>();
         for(String userName : request.getUserNames()){

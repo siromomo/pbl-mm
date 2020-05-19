@@ -97,6 +97,11 @@ public class AuthController {
         return ResponseEntity.ok(authService.endGame(recordRequest));
     }
 
+    @RequestMapping("/findUserById")
+    public ResponseEntity<?> findUserById(@RequestParam Long userId){
+        return ResponseEntity.ok(authService.findUserById(userId));
+    }
+
 }
 
 
