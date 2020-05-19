@@ -1,5 +1,6 @@
 package fudan.pbl.mm.controller;
 
+import fudan.pbl.mm.controller.request.auth.GameRecordRequest;
 import fudan.pbl.mm.controller.request.auth.LoginRequest;
 import fudan.pbl.mm.controller.request.auth.ModifyInfoRequest;
 import fudan.pbl.mm.controller.response.ResponseObject;
@@ -89,6 +90,11 @@ public class AuthController {
     @RequestMapping("/modifyInformation")
     public ResponseEntity<?> modifyInformation(@RequestBody ModifyInfoRequest request){
         return ResponseEntity.ok(authService.modifyInformation(request));
+    }
+
+    @PostMapping("/endGame")
+    public ResponseEntity<?> endGame(@RequestBody GameRecordRequest recordRequest){
+        return ResponseEntity.ok(authService.endGame(recordRequest));
     }
 
 }

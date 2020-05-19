@@ -29,6 +29,9 @@ public class User implements UserDetails {
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     private Set<Authority> authorities;
 
+    @ManyToMany
+    private Set<GameRecord> gameRecords;
+
     public User() {}
     public User(String username, String password, String fullname,
                 int age, String region, String gender, Set<Authority> authorities) {
@@ -152,5 +155,17 @@ public class User implements UserDetails {
 
     public String getEmail() {
         return email;
+    }
+
+    public Set<GameRecord> getGameRecords() {
+        return gameRecords;
+    }
+
+    public void setGameRecords(Set<GameRecord> gameRecords) {
+        this.gameRecords = gameRecords;
+    }
+    public void addToGameRecords(GameRecord gameRecord){
+        if(this.gameRecords == null) gameRecords = new HashSet<>();
+        gameRecords.add(gameRecord);
     }
 }

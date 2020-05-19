@@ -1,11 +1,14 @@
 package fudan.pbl.mm.service;
 
+import fudan.pbl.mm.controller.request.auth.GameRecordRequest;
 import fudan.pbl.mm.controller.request.auth.LoginRequest;
 import fudan.pbl.mm.controller.request.auth.ModifyInfoRequest;
 import fudan.pbl.mm.controller.response.ResponseObject;
 import fudan.pbl.mm.domain.Authority;
+import fudan.pbl.mm.domain.GameRecord;
 import fudan.pbl.mm.repository.AuthorityRepository;
 import fudan.pbl.mm.domain.User;
+import fudan.pbl.mm.repository.GameRecordRepository;
 import fudan.pbl.mm.repository.UserRepository;
 import fudan.pbl.mm.controller.request.auth.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,7 @@ import java.util.UUID;
 public class AuthService {
     private UserRepository userRepository;
     private AuthorityRepository authorityRepository;
+    private GameRecordRepository gameRecordRepository;
 
     @Value("${file.uploadFolder}")
     private String FILE_BASE_PATH = "D:" + File.separator + "web3d_head_profiles";
@@ -32,9 +36,11 @@ public class AuthService {
 
     @Autowired
     public AuthService(UserRepository userRepository,
-                       AuthorityRepository authorityRepository) {
+                       AuthorityRepository authorityRepository,
+                       GameRecordRepository gameRecordRepository) {
         this.userRepository = userRepository;
         this.authorityRepository = authorityRepository;
+        this.gameRecordRepository = gameRecordRepository;
     }
 
     public ResponseObject<User> register(RegisterRequest request) {
@@ -182,5 +188,23 @@ public class AuthService {
 
     public ResponseObject<User> getUserInfo(String username){
         return new ResponseObject<>(200, "success", userRepository.findByUsername(username));
+    }
+
+    public ResponseObject<?> endGame(GameRecordRequest request){
+        Set<User> users = new HashSet<>();
+        for(String userName : request.getUserNames()){
+            User user = userRepository.findByUsername(userName);
+            if(user == null){
+                return new ResponseObject<>(404, "user " + userName + " not exists", null);
+            }
+            users.add(user);
+        }
+        GameRecord record = new GameRecord(request.getStatus(), request.getScore(), request.getTime(), users);
+        gameRecordRepository.save(record);
+        for(User user : users) {
+            user.addToGameRecords(record);
+            userRepository.save(user);
+        }
+        return new ResponseObject<>(200, "success", null);
     }
 }
