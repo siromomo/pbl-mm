@@ -26,17 +26,15 @@ public class PackService {
         this.cellInfoRepository = cellInfoRepository;
     }
 
-    public ResponseObject<?> collectCellInfo(String cellInfoType, Long cellId){
-        Cell cell = cellRepository.findCellById(cellId);
-        Pack pack = packRepository.findPackByCellsContaining(cell);
+    public ResponseObject<?> collectCellInfo(String cellInfoType, Long packId){
+        Pack pack = packRepository.findPackById(packId);
         pack.addToCellInfoSet(cellInfoRepository.findCellInfoByType(cellInfoType));
         packRepository.save(pack);
         return new ResponseObject<>(200, "success", null);
     }
 
-    public ResponseObject<Set<CellInfo>> getCellInfoHasCollected(Long cellId){
-        Cell cell = cellRepository.findCellById(cellId);
-        Pack pack = packRepository.findPackByCellsContaining(cell);
+    public ResponseObject<Set<CellInfo>> getCellInfoHasCollected(Long packId){
+        Pack pack = packRepository.findPackById(packId);
         return new ResponseObject<>(200, "success", pack.getCellInfoSet());
     }
 }

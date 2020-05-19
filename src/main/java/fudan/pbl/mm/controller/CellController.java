@@ -35,7 +35,6 @@ public class CellController {
                                            @RequestHeader String jwt_token){
         String username = jwtTokenUtil.getUsernameFromToken(jwt_token);
         ResponseObject<Cell> newCell = cellService.addCellToUser(type, nickname, username);
-        WebSocketController.cellPositionMap.put(newCell.getContent(), new Position());
         return ResponseEntity.ok(newCell);
     }
 

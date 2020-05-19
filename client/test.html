@@ -40,12 +40,13 @@
 </div>
 <div>
     <p>my cell:</p>
-    x: <input type="text" name="x" id="x"><br>
-    y: <input type="text" name="y" id="y"><br>
-    z: <input type="text" name="z" id="z"><br>
+    x: <input type="text" name="x" id="x" value="10"><br>
+    y: <input type="text" name="y" id="y" value="10"><br>
+    z: <input type="text" name="z" id="z" value="10"><br>
     <button onclick="send()">change position</button>
     msg: <input type="text" id="msg">
     <button onclick="sendMsg()">send message</button>
+    <button onclick="quit()">quit</button>
 </div>
 <script>
     var rootPath = "http://localhost:8080";
@@ -54,6 +55,14 @@
     socket = new SockJS(rootPath + '/ws');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
+        var webMsg = {
+            'x': parseInt($("#x").val()),
+            'y': parseInt($("#y").val()),
+            'z': parseInt($("#z").val()),
+            'objectId': parseInt(localStorage.getItem("user_id"))
+        };
+        stompClient.send("/app/connectToServer", {},
+            JSON.stringify(webMsg));
         // 订阅 /topic/to-all 实现公告
         stompClient.subscribe('/topic/positionToAll',
             function (dd) {
@@ -62,6 +71,14 @@
                 var obj = JSON.parse(dd.body);
                 var content = obj.content;
             });
+        stompClient.subscribe('/topic/startGame',
+        function (dd) {
+
+        })
+        stompClient.subscribe('/topic/gameOver',
+        function (dd) {
+
+        })
         stompClient.subscribe('/topic/updateCellAndVirus',
             function (dd) {
                 //console.log("received:" + dd);
@@ -95,14 +112,29 @@
         function (dd) {
             console.log(dd.body);
         })
+        stompClient.subscribe("/topic/userQuit",
+        function (dd) {
+
+        })
     });
+
+    function quit() {
+        var webMsg = {
+            'x': parseInt($("#x").val()),
+            'y': parseInt($("#y").val()),
+            'z': parseInt($("#z").val()),
+            'objectId': parseInt(localStorage.getItem("user_id"))
+        };
+        stompClient.send("/app/quitGame", {},
+            JSON.stringify(webMsg));
+    }
 
     function send() {
         var webMsg = {
             'x': parseInt($("#x").val()),
             'y': parseInt($("#y").val()),
             'z': parseInt($("#z").val()),
-            'objectId': parseInt(localStorage.getItem("cellId"))
+            'objectId': parseInt(localStorage.getItem("user_id"))
         };
         stompClient.send("/app/updatePosition", {},
             JSON.stringify(webMsg));

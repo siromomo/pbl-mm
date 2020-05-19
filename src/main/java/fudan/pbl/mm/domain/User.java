@@ -4,6 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.*;
 
 @Entity
@@ -26,10 +27,13 @@ public class User implements UserDetails {
     private String fullname;
     private String headProfilePath;
 
+    @Column(columnDefinition = "int(11) default 0")
+    private int modelId;
+
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     private Set<Authority> authorities;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<GameRecord> gameRecords;
 
     public User() {}
@@ -167,5 +171,26 @@ public class User implements UserDetails {
     public void addToGameRecords(GameRecord gameRecord){
         if(this.gameRecords == null) gameRecords = new HashSet<>();
         gameRecords.add(gameRecord);
+    }
+
+    public int getModelId() {
+        return modelId;
+    }
+
+    public void setModelId(int modelId) {
+        this.modelId = modelId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return (int)(id % Integer.MAX_VALUE);
     }
 }

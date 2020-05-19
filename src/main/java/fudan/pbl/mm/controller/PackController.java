@@ -17,12 +17,12 @@ public class PackController {
     }
 
     @RequestMapping("/collectCellInfo")
-    public ResponseEntity<?> collectCellInfo(@RequestParam long cellId, @RequestParam String cellInfoType){
-        return ResponseEntity.ok(packService.collectCellInfo(cellInfoType, cellId));
+    public ResponseEntity<?> collectCellInfo(@RequestParam long packId, @RequestParam String cellInfoType){
+        return ResponseEntity.ok(packService.collectCellInfo(cellInfoType, packId));
     }
 
     @RequestMapping("/getCellInfoHasCollected")
-    public ResponseEntity<?> getCellInfoHashCollected(@RequestParam long cellId){
-        return ResponseEntity.ok(packService.getCellInfoHasCollected(cellId));
+    public ResponseEntity<?> getCellInfoHashCollected(@RequestParam long packId){
+        return ResponseEntity.ok(packService.getCellInfoHasCollected(packId));
     }
 }

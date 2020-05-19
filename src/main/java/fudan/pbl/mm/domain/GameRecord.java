@@ -1,5 +1,7 @@
 package fudan.pbl.mm.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -13,6 +15,7 @@ public class GameRecord {
     private String time;
 
     @ManyToMany(mappedBy = "gameRecords")
+    @JsonIgnore
     private Set<User> users;
 
     public GameRecord(){}

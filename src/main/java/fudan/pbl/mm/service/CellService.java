@@ -49,7 +49,7 @@ public class CellService {
         cell.setPack(pack);
         pack.addToCells(cell);
         savePackAndCell(pack, cell);
-        WebSocketController.cellPositionMap.put(cell, new Position());
+
 
         userRepository.save(user);
 
@@ -86,5 +86,12 @@ public class CellService {
             return new ResponseObject<>(404, "user does not exist", null);
         }
         return new ResponseObject<>(200, "success", cellRepository.findCellsByUser(user));
+    }
+
+    public void addCellToPack(Cell cell, Pack pack){
+        pack.addToCells(cell);
+        cell.setPack(pack);
+        cellRepository.save(cell);
+        packRepository.save(pack);
     }
 }
