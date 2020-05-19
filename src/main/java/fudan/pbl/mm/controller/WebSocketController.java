@@ -3,10 +3,12 @@ package fudan.pbl.mm.controller;
 
 import com.google.common.collect.Lists;
 import fudan.pbl.mm.controller.request.ChatMessage;
+import fudan.pbl.mm.controller.request.PackMessage;
 import fudan.pbl.mm.controller.request.PositionMessage;
 import fudan.pbl.mm.controller.request.StartGameResponse;
 import fudan.pbl.mm.controller.response.ResponseObject;
 import fudan.pbl.mm.domain.*;
+import fudan.pbl.mm.repository.CellInfoRepository;
 import fudan.pbl.mm.repository.CellRepository;
 import fudan.pbl.mm.repository.PackRepository;
 import fudan.pbl.mm.repository.UserRepository;
@@ -42,6 +44,7 @@ public class WebSocketController {
     private SimpMessagingTemplate messagingTemplate;
     private PackRepository packRepository;
     private UserRepository userRepository;
+    private CellInfoRepository cellInfoRepository;
     public static Map<User, Position> cellPositionMap = new ConcurrentHashMap<>();
     public static Map<Virus, Position> virusPositionMap = new ConcurrentHashMap<>();
 
@@ -70,10 +73,12 @@ public class WebSocketController {
 
     @Autowired
     public WebSocketController(SimpMessagingTemplate messagingTemplate,
-                               PackRepository packRepository, UserRepository userRepository){
+                               PackRepository packRepository, UserRepository userRepository,
+                               CellInfoRepository cellInfoRepository){
         this.messagingTemplate = messagingTemplate;
         this.packRepository = packRepository;
         this.userRepository = userRepository;
+        this.cellInfoRepository = cellInfoRepository;
     }
 
 
@@ -169,6 +174,14 @@ public class WebSocketController {
     @MessageMapping("/chatMessageToAll")
     public void sendMessageToAll(ChatMessage message){
         messagingTemplate.convertAndSend("/topic/toAll", message);
+    }
+
+    @MessageMapping("/collectCellInfo")
+    public void collectCellInfo(PackMessage message){
+        Pack currentPack = packRepository.findPackById(message.getPackId());
+        currentPack.addToCellInfoSet(cellInfoRepository.findCellInfoByType(message.getCellInfoType()));
+        messagingTemplate.convertAndSend("/topic/updatePack",
+                new ResponseObject<>(200, "success", currentPack));
     }
 
     @Scheduled(fixedRate = 1000)

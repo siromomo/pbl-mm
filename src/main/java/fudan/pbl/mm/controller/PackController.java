@@ -16,10 +16,10 @@ public class PackController {
         this.packService = packService;
     }
 
-    @RequestMapping("/collectCellInfo")
+    /*@RequestMapping("/collectCellInfo")
     public ResponseEntity<?> collectCellInfo(@RequestParam long packId, @RequestParam String cellInfoType){
         return ResponseEntity.ok(packService.collectCellInfo(cellInfoType, packId));
-    }
+    }*/
 
     @RequestMapping("/getCellInfoHasCollected")
     public ResponseEntity<?> getCellInfoHashCollected(@RequestParam long packId){
