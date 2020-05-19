@@ -75,6 +75,7 @@ public class AuthService {
         user.setUsername(username);
         user.setPassword(encoder.encode(password));
         user.setEmail(email);
+        user.setModelId(request.getModelId());
         user.setAuthorities(authoritySet);
         for(Authority authority : authoritySet){
             authority.getUsers().add(user);

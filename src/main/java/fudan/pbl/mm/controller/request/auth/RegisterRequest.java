@@ -8,6 +8,7 @@ public class RegisterRequest {
     private String username;
     private String password;
     private String email;
+    private int modelId;
     private Set<String> authorities;
 
     public RegisterRequest() {}
@@ -49,6 +50,14 @@ public class RegisterRequest {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setModelId(int modelId) {
+        this.modelId = modelId;
+    }
+
+    public int getModelId() {
+        return modelId;
     }
 }
 
