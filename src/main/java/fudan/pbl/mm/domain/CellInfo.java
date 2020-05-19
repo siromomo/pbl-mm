@@ -1,6 +1,7 @@
 package fudan.pbl.mm.domain;
 
 import antlr.collections.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -16,6 +17,7 @@ public class CellInfo {
     private String info;
 
     @ManyToMany(mappedBy = "cellInfoSet")
+    @JsonIgnore
     private Set<Pack> packSet;
 
     public CellInfo(){}
@@ -46,5 +48,13 @@ public class CellInfo {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Set<Pack> getPackSet() {
+        return packSet;
+    }
+
+    public void setPackSet(Set<Pack> packSet) {
+        this.packSet = packSet;
     }
 }

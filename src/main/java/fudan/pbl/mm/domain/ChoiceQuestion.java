@@ -1,6 +1,9 @@
 package fudan.pbl.mm.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class ChoiceQuestion {
@@ -16,6 +19,10 @@ public class ChoiceQuestion {
     private String choiceC;
     private String choiceD;
     private String correctChoice;
+
+    @ManyToMany(mappedBy = "choiceQuestionSet")
+    @JsonIgnore
+    private Set<Pack> packSet;
 
     public ChoiceQuestion(){}
     public ChoiceQuestion(String keyword, String stem, String choiceA,
@@ -91,5 +98,13 @@ public class ChoiceQuestion {
 
     public void setStem(String stem) {
         this.stem = stem;
+    }
+
+    public void setPackSet(Set<Pack> packSet) {
+        this.packSet = packSet;
+    }
+
+    public Set<Pack> getPackSet() {
+        return packSet;
     }
 }

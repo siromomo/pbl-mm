@@ -15,12 +15,17 @@ public class Pack {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<CellInfo> cellInfoSet;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<ChoiceQuestion> choiceQuestionSet;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Knowledge> knowledgeSet;
     @OneToMany
     @JsonIgnore
     private Set<Cell> cells;
     @Column(columnDefinition = "int(11) default 100")
     private int hp;
     private final static int DROP_NUM = 10;
+    private final static int FILLED_NUM = 5;
 
     public Pack(){}
 
@@ -49,6 +54,30 @@ public class Pack {
         cellInfoSet.add(cellInfo);
     }
 
+    public Set<ChoiceQuestion> getChoiceQuestionSet() {
+        return choiceQuestionSet;
+    }
+
+    public void setChoiceQuestionSet(Set<ChoiceQuestion> choiceQuestionSet) {
+        this.choiceQuestionSet = choiceQuestionSet;
+    }
+    public void addToChoiceQuestionSet(ChoiceQuestion choiceQuestion){
+        if(choiceQuestionSet == null) choiceQuestionSet = new HashSet<>();
+        choiceQuestionSet.add(choiceQuestion);
+    }
+
+    public Set<Knowledge> getKnowledgeSet() {
+        return knowledgeSet;
+    }
+
+    public void setKnowledgeSet(Set<Knowledge> knowledgeSet) {
+        this.knowledgeSet = knowledgeSet;
+    }
+    public void addToKnowledgeSet(Knowledge knowledge){
+        if(knowledgeSet == null) knowledgeSet = new HashSet<>();
+        knowledgeSet.add(knowledge);
+    }
+
     public void setHp(int hp) {
         this.hp = hp;
     }
@@ -62,5 +91,12 @@ public class Pack {
 
     public Long getId() {
         return id;
+    }
+
+    public boolean isFilled(){
+        if(cellInfoSet == null || knowledgeSet == null || choiceQuestionSet == null)
+            return false;
+        int total = cellInfoSet.size() + knowledgeSet.size() + choiceQuestionSet.size();
+        return total >= FILLED_NUM;
     }
 }

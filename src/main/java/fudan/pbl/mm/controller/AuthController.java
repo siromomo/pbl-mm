@@ -102,6 +102,11 @@ public class AuthController {
         return ResponseEntity.ok(authService.findUserById(userId));
     }
 
+    @RequestMapping("/findKnowledgeByUserId")
+    public ResponseEntity<?> findKnowledgeByUserId(@RequestParam Long userId){
+        return ResponseEntity.ok(authService.findKnowledgeByUserId(userId));
+    }
+
 }
 
 

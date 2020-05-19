@@ -4,11 +4,10 @@ import fudan.pbl.mm.controller.request.auth.GameRecordRequest;
 import fudan.pbl.mm.controller.request.auth.LoginRequest;
 import fudan.pbl.mm.controller.request.auth.ModifyInfoRequest;
 import fudan.pbl.mm.controller.response.ResponseObject;
-import fudan.pbl.mm.domain.Authority;
-import fudan.pbl.mm.domain.GameRecord;
+import fudan.pbl.mm.domain.*;
 import fudan.pbl.mm.repository.AuthorityRepository;
-import fudan.pbl.mm.domain.User;
 import fudan.pbl.mm.repository.GameRecordRepository;
+import fudan.pbl.mm.repository.PackRepository;
 import fudan.pbl.mm.repository.UserRepository;
 import fudan.pbl.mm.controller.request.auth.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +27,7 @@ public class AuthService {
     private UserRepository userRepository;
     private AuthorityRepository authorityRepository;
     private GameRecordRepository gameRecordRepository;
+    private PackRepository packRepository;
 
     @Value("${file.uploadFolder}")
     private String FILE_BASE_PATH = "D:" + File.separator + "web3d_head_profiles";
@@ -37,10 +37,12 @@ public class AuthService {
     @Autowired
     public AuthService(UserRepository userRepository,
                        AuthorityRepository authorityRepository,
-                       GameRecordRepository gameRecordRepository) {
+                       GameRecordRepository gameRecordRepository,
+                       PackRepository packRepository) {
         this.userRepository = userRepository;
         this.authorityRepository = authorityRepository;
         this.gameRecordRepository = gameRecordRepository;
+        this.packRepository = packRepository;
     }
 
     public ResponseObject<User> register(RegisterRequest request) {
@@ -204,12 +206,23 @@ public class AuthService {
             }
             users.add(user);
         }
+        Pack pack = packRepository.findPackById(request.getPackId());
+        Set<Knowledge> knowledgeSet = pack.getKnowledgeSet();
         GameRecord record = new GameRecord(request.getStatus(), request.getScore(), request.getTime(), users);
         gameRecordRepository.save(record);
         for(User user : users) {
             user.addToGameRecords(record);
+            user.getKnowledgeSet().addAll(knowledgeSet);
             userRepository.save(user);
         }
         return new ResponseObject<>(200, "success", null);
+    }
+
+    public ResponseObject<Set<Knowledge>> findKnowledgeByUserId(Long id){
+        User user = userRepository.findUserById(id);
+        if(user == null){
+            return new ResponseObject<>(404, "user not exists", null);
+        }
+        return new ResponseObject<>(200, "success", user.getKnowledgeSet());
     }
 }

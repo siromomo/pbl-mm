@@ -1,5 +1,6 @@
 package fudan.pbl.mm.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -26,6 +27,10 @@ public class User implements UserDetails {
     private String password;
     private String fullname;
     private String headProfilePath;
+
+    @ManyToMany
+    @JsonIgnore
+    private Set<Knowledge> knowledgeSet;
 
     @Column(columnDefinition = "int(11) default 0")
     private int modelId;
@@ -179,6 +184,14 @@ public class User implements UserDetails {
 
     public void setModelId(int modelId) {
         this.modelId = modelId;
+    }
+
+    public void setKnowledgeSet(Set<Knowledge> knowledgeSet) {
+        this.knowledgeSet = knowledgeSet;
+    }
+
+    public Set<Knowledge> getKnowledgeSet() {
+        return knowledgeSet;
     }
 
     @Override

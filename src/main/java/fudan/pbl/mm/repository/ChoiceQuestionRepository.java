@@ -11,6 +11,7 @@ import java.util.List;
 public interface ChoiceQuestionRepository extends CrudRepository<ChoiceQuestion, Long> {
     public List<ChoiceQuestion> findChoiceQuestionByKeyword(String keyword);
 
+    ChoiceQuestion findChoiceQuestionById(Long id);
     @Query( value = "select * from choice_question order by rand() limit 1", nativeQuery = true)
     public ChoiceQuestion findRandomQuestion();
 }

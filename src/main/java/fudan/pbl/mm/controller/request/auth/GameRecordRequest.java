@@ -9,6 +9,7 @@ public class GameRecordRequest {
     private String status;
     private int score;
     private String time;
+    private long packId;
     private Set<String> userNames;
 
     public GameRecordRequest(){}
@@ -39,6 +40,14 @@ public class GameRecordRequest {
 
     public Set<String> getUserNames() {
         return userNames;
+    }
+
+    public void setPackId(long packId) {
+        this.packId = packId;
+    }
+
+    public long getPackId() {
+        return packId;
     }
 
     public void setUserIds(Set<String> userIds) {

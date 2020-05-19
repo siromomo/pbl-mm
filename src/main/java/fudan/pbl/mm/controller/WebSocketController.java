@@ -2,16 +2,10 @@ package fudan.pbl.mm.controller;
 
 
 import com.google.common.collect.Lists;
-import fudan.pbl.mm.controller.request.ChatMessage;
-import fudan.pbl.mm.controller.request.PackMessage;
-import fudan.pbl.mm.controller.request.PositionMessage;
-import fudan.pbl.mm.controller.request.StartGameResponse;
+import fudan.pbl.mm.controller.request.*;
 import fudan.pbl.mm.controller.response.ResponseObject;
 import fudan.pbl.mm.domain.*;
-import fudan.pbl.mm.repository.CellInfoRepository;
-import fudan.pbl.mm.repository.CellRepository;
-import fudan.pbl.mm.repository.PackRepository;
-import fudan.pbl.mm.repository.UserRepository;
+import fudan.pbl.mm.repository.*;
 import fudan.pbl.mm.service.CellService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,6 +37,8 @@ public class WebSocketController {
     private PackRepository packRepository;
     private UserRepository userRepository;
     private CellInfoRepository cellInfoRepository;
+    private KnowledgeRepository knowledgeRepository;
+    private ChoiceQuestionRepository choiceQuestionRepository;
     public static Map<User, Position> cellPositionMap = new ConcurrentHashMap<>();
     private static Set<User> loadFinishSet = new HashSet<>();
     public static Map<Virus, Position> virusPositionMap = new ConcurrentHashMap<>();
@@ -77,11 +73,15 @@ public class WebSocketController {
     @Autowired
     public WebSocketController(SimpMessagingTemplate messagingTemplate,
                                PackRepository packRepository, UserRepository userRepository,
-                               CellInfoRepository cellInfoRepository) {
+                               CellInfoRepository cellInfoRepository,
+                               ChoiceQuestionRepository choiceQuestionRepository,
+                               KnowledgeRepository knowledgeRepository) {
         this.messagingTemplate = messagingTemplate;
         this.packRepository = packRepository;
         this.userRepository = userRepository;
         this.cellInfoRepository = cellInfoRepository;
+        this.choiceQuestionRepository = choiceQuestionRepository;
+        this.knowledgeRepository = knowledgeRepository;
     }
 
 
@@ -212,6 +212,28 @@ public class WebSocketController {
                 new ResponseObject<>(200, "success", currentPack));
     }
 
+    @MessageMapping("/answerQuestion")
+    public void answerQuestion(PackQuestionMessage message){
+        Pack currentPack = packRepository.findPackById(message.getPackId());
+        currentPack.addToChoiceQuestionSet(choiceQuestionRepository.findChoiceQuestionById(message.getQuestionId()));
+        messagingTemplate.convertAndSend("/topic/updatePack",
+                new ResponseObject<>(200, "success", currentPack));
+    }
+
+    @MessageMapping("/collectKnowledge")
+    public void collectKnowledge(PackKnowledgeMessage message){
+        Pack currentPack = packRepository.findPackById(message.getPackId());
+        currentPack.addToKnowledgeSet(knowledgeRepository.findKnowledgeById(message.getKnowledgeId()));
+        messagingTemplate.convertAndSend("/topic/updatePack",
+                new ResponseObject<>(200, "success", currentPack));
+    }
+
+    @RequestMapping("/getRandomKnowledge")
+    public ResponseEntity<?> getRandomKnowledge(){
+        return ResponseEntity.ok(new ResponseObject<>(200, "success",
+                knowledgeRepository.findRandomKnowledge()));
+    }
+
     @Scheduled(fixedRate = 1000)
     public void updateVirus() {
         if(currentNumOfLoadedUser >= NUM_OF_LEAST_PLAYER) {
@@ -231,7 +253,7 @@ public class WebSocketController {
             Position virusPos = virusPositionMap.get(virus);
             if (virusPos.calculateDistance(cellPos) <= virus.getRadius()) {
                 System.out.println("cell touched virus");
-                if (!(pack.getCellInfoSet().size() >= NUM_OF_TYPES)) {
+                if (!pack.isFilled()) {
                     pack.dropHp();
                     if (pack.getHp() <= 0) {
                         messagingTemplate.convertAndSend("/topic/gameOver", new ResponseObject<>(200, "success", "game over"));
