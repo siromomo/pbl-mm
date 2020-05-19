@@ -24,6 +24,12 @@ public class Position {
         this.y = y;
         this.z = z;
     }
+    public Position(int x, int y, int z, float rotation){
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.rotation = rotation;
+    }
 
     public void setX(int x) {
         this.x = x;

@@ -31,9 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
@@ -46,6 +44,7 @@ public class WebSocketController {
     private UserRepository userRepository;
     private CellInfoRepository cellInfoRepository;
     public static Map<User, Position> cellPositionMap = new ConcurrentHashMap<>();
+    private static Set<User> loadFinishSet = new HashSet<>();
     public static Map<Virus, Position> virusPositionMap = new ConcurrentHashMap<>();
 
 
@@ -53,17 +52,21 @@ public class WebSocketController {
     private Pack pack;
     private static final int NUM_OF_TYPES = 8;
     private static final int NUM_OF_LEAST_PLAYER = 2;
+    private static final int NUM_OF_MAX_PLAYER = 4;
+    private int currentNumOfUser = 0;
+    private int currentNumOfLoadedUser = 0;
 
     @PostConstruct
-    public void init(){
+    public void init() {
         cellPositionMap = new ConcurrentHashMap<>();
         virusPositionMap = new ConcurrentHashMap<>();
-        while(virusPositionMap.size() < CellService.INIT_VIRUS_NUM) {
+        loadFinishSet = new HashSet<>();
+        while (virusPositionMap.size() < CellService.INIT_VIRUS_NUM) {
             virusPositionMap.put(new Virus(), new Position());
         }
     }
 
-    private void initPack(){
+    private void initPack() {
         pack = new Pack();
         pack.setHp(100);
         packRepository.save(pack);
@@ -74,7 +77,7 @@ public class WebSocketController {
     @Autowired
     public WebSocketController(SimpMessagingTemplate messagingTemplate,
                                PackRepository packRepository, UserRepository userRepository,
-                               CellInfoRepository cellInfoRepository){
+                               CellInfoRepository cellInfoRepository) {
         this.messagingTemplate = messagingTemplate;
         this.packRepository = packRepository;
         this.userRepository = userRepository;
@@ -83,7 +86,10 @@ public class WebSocketController {
 
 
     @MessageMapping("/connectToServer")
-    public void connect(PositionMessage message){
+    public void connect(PositionMessage message) {
+        if (currentNumOfUser >= NUM_OF_LEAST_PLAYER) {
+            return;
+        }
         User user = userRepository.findUserById(message.getObjectId());
         Position position = new Position();
         position.setX(message.getX());
@@ -91,45 +97,67 @@ public class WebSocketController {
         position.setZ(message.getZ());
         position.setRotation(message.getRotation());
         boolean exist = false;
-        for(User user2 : cellPositionMap.keySet()){
-            if(user2.getId().equals(user.getId())){
+        for (User user2 : cellPositionMap.keySet()) {
+            if (user2.getId().equals(user.getId())) {
                 exist = true;
                 break;
             }
         }
-        if(!exist)
+        if (!exist) {
             cellPositionMap.put(user, position);
-        if(cellPositionMap.keySet().size() >= NUM_OF_LEAST_PLAYER){
-            if(pack == null) initPack();
+            currentNumOfUser++;
+            messagingTemplate.convertAndSend("/topic/currentNumOfUser",
+                    new ResponseObject<>(200, "success", currentNumOfUser));
+        }
+        if (currentNumOfUser >= NUM_OF_LEAST_PLAYER) {
+            if (pack == null) initPack();
             StartGameResponse startGameResponse = new StartGameResponse(pack, cellPositionMap.keySet(), user);
             messagingTemplate.convertAndSend("/topic/startGame", new ResponseObject<>(
-                    200, "success" , startGameResponse));
+                    200, "success", startGameResponse));
+        }
+    }
+
+    @MessageMapping("/loadFinish")
+    public void loadFinish(PositionMessage message){
+        User user = userRepository.findUserById(message.getObjectId());
+        Position position = new Position(message.getX(), message.getY(), message.getZ(), message.getRotation());
+        if(!loadFinishSet.contains(user)) {
+            loadFinishSet.add(user);
+            cellPositionMap.put(user, position);
+            currentNumOfLoadedUser++;
+            if (currentNumOfUser >= NUM_OF_LEAST_PLAYER) {
+                messagingTemplate.convertAndSend("/topic/startGame",
+                        new ResponseObject<>(200, "success", "all users load finish"));
+            }
         }
     }
 
     @MessageMapping("/quitGame")
-    public void quitGame(PositionMessage message){
+    public void quitGame(PositionMessage message) {
         User leave = null;
-        for(User u : cellPositionMap.keySet()){
-            if(u.getId().equals(message.getObjectId())){
+        for (User u : cellPositionMap.keySet()) {
+            if (u.getId().equals(message.getObjectId())) {
                 cellPositionMap.remove(u);
                 leave = u;
                 break;
             }
         }
-        if(leave != null)
+        if (leave != null)
             messagingTemplate.convertAndSend("/topic/userQuit", leave);
     }
 
     @RequestMapping("/cleanCurrentGame")
-    public ResponseEntity<?> cleanCurrentGame(){
-        cellPositionMap = new HashMap<>();
+    public ResponseEntity<?> cleanCurrentGame() {
+        cellPositionMap = new ConcurrentHashMap<>();
+        loadFinishSet = new HashSet<>();
         pack = null;
+        currentNumOfLoadedUser = 0;
+        currentNumOfUser = 0;
         return ResponseEntity.ok(new ResponseObject<>(200, "success", null));
     }
 
     @RequestMapping("/getCurrentPack")
-    public ResponseEntity<?> getCurrentPack(){
+    public ResponseEntity<?> getCurrentPack() {
         return ResponseEntity.ok(new ResponseObject<>(200, "success", pack));
     }
 
@@ -149,7 +177,7 @@ public class WebSocketController {
         sendUpdateCellAndVirusResp();
     }
 
-    private void sendUpdateCellAndVirusResp(){
+    private void sendUpdateCellAndVirusResp() {
         Map<String, Object> resp = new HashMap<>();
         resp.put("cellPositionMap", cellPositionMap);
         resp.put("virusPositionMap", virusPositionMap);
@@ -158,13 +186,13 @@ public class WebSocketController {
     }
 
     @RequestMapping("/initVirus")
-    public ResponseEntity<?> initVirus(){
+    public ResponseEntity<?> initVirus() {
         return ResponseEntity.ok(new ResponseObject<>(200, "success", virusPositionMap));
     }
 
     // 客户端：/app/chatMessageToOne
     @MessageMapping("/chatMessageToOne")
-    public void sendMessageToOne(ChatMessage message){
+    public void sendMessageToOne(ChatMessage message) {
         String user = String.valueOf(message.getToId());
         messagingTemplate.convertAndSendToUser(user, "/toOne",
                 new ResponseObject<>(200, "success", message));
@@ -172,12 +200,12 @@ public class WebSocketController {
     }
 
     @MessageMapping("/chatMessageToAll")
-    public void sendMessageToAll(ChatMessage message){
+    public void sendMessageToAll(ChatMessage message) {
         messagingTemplate.convertAndSend("/topic/toAll", message);
     }
 
     @MessageMapping("/collectCellInfo")
-    public void collectCellInfo(PackMessage message){
+    public void collectCellInfo(PackMessage message) {
         Pack currentPack = packRepository.findPackById(message.getPackId());
         currentPack.addToCellInfoSet(cellInfoRepository.findCellInfoByType(message.getCellInfoType()));
         messagingTemplate.convertAndSend("/topic/updatePack",
@@ -185,36 +213,38 @@ public class WebSocketController {
     }
 
     @Scheduled(fixedRate = 1000)
-    public void updateVirus(){
-        for(Virus virus : virusPositionMap.keySet()){
-            Position pos = virusPositionMap.get(virus);
-            pos.randomUpdate();
-            virusPositionMap.put(virus, pos);
+    public void updateVirus() {
+        if(currentNumOfLoadedUser >= NUM_OF_LEAST_PLAYER) {
+            for (Virus virus : virusPositionMap.keySet()) {
+                Position pos = virusPositionMap.get(virus);
+                pos.randomUpdate();
+                virusPositionMap.put(virus, pos);
+            }
+            for (User user : cellPositionMap.keySet()) checkVirus(user);
+            sendUpdateCellAndVirusResp();
         }
-        for(User user : cellPositionMap.keySet()) checkVirus(user);
-        sendUpdateCellAndVirusResp();
     }
 
-    private synchronized void checkVirus(User user){
+    private synchronized void checkVirus(User user) {
         Position cellPos = cellPositionMap.get(user);
-        for(Virus virus : virusPositionMap.keySet()){
+        for (Virus virus : virusPositionMap.keySet()) {
             Position virusPos = virusPositionMap.get(virus);
-            if(virusPos.calculateDistance(cellPos) <= virus.getRadius()){
+            if (virusPos.calculateDistance(cellPos) <= virus.getRadius()) {
                 System.out.println("cell touched virus");
-                if(!(pack.getCellInfoSet().size() >= NUM_OF_TYPES)){
+                if (!(pack.getCellInfoSet().size() >= NUM_OF_TYPES)) {
                     pack.dropHp();
-                    if(pack.getHp() <= 0){
+                    if (pack.getHp() <= 0) {
                         messagingTemplate.convertAndSend("/topic/gameOver", new ResponseObject<>(200, "success", "game over"));
                         cleanCurrentGame();
                         return;
                     }
                     packRepository.save(pack);
-                }else{
+                } else {
                     virusPositionMap.remove(virus);
                 }
             }
         }
-        while(virusPositionMap.keySet().size() < CellService.INIT_VIRUS_NUM){
+        while (virusPositionMap.keySet().size() < CellService.INIT_VIRUS_NUM) {
             virusPositionMap.put(new Virus(), new Position());
         }
     }

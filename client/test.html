@@ -47,6 +47,7 @@
     msg: <input type="text" id="msg">
     <button onclick="sendMsg()">send message</button>
     <button onclick="quit()">quit</button>
+    <button onclick="loadOver()">load</button>
 </div>
 <script>
     var rootPath = "http://localhost:8080";
@@ -150,7 +151,16 @@
         JSON.stringify(msg));
     }
 
-
+    function loadOver() {
+        var webMsg = {
+            'x': parseInt($("#x").val()),
+            'y': parseInt($("#y").val()),
+            'z': parseInt($("#z").val()),
+            'objectId': parseInt(localStorage.getItem("user_id"))
+        };
+        stompClient.send("/app/loadFinish", {},
+            JSON.stringify(webMsg));
+    }
 </script>
 </body>
 </html>
