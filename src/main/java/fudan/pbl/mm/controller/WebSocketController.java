@@ -4,6 +4,7 @@ package fudan.pbl.mm.controller;
 import com.google.common.collect.Lists;
 import fudan.pbl.mm.controller.request.ChatMessage;
 import fudan.pbl.mm.controller.request.PositionMessage;
+import fudan.pbl.mm.controller.request.StartGameResponse;
 import fudan.pbl.mm.controller.response.ResponseObject;
 import fudan.pbl.mm.domain.*;
 import fudan.pbl.mm.repository.CellRepository;
@@ -95,8 +96,9 @@ public class WebSocketController {
             cellPositionMap.put(user, position);
         if(cellPositionMap.keySet().size() >= NUM_OF_LEAST_PLAYER){
             if(pack == null) initPack();
+            StartGameResponse startGameResponse = new StartGameResponse(pack, cellPositionMap.keySet(), user);
             messagingTemplate.convertAndSend("/topic/startGame", new ResponseObject<>(
-                    200, "success" , pack));
+                    200, "success" , startGameResponse));
         }
     }
 

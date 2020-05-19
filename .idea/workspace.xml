@@ -2,25 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d2ab5fa0-ca76-4ef7-a944-35de4c25c621" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/controller/request/StartGameResponse.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/test.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/test.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/controller/CellController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/controller/CellController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/controller/PackController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/controller/PackController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/controller/WebSocketController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/controller/WebSocketController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/domain/GameRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/domain/GameRecord.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/domain/Pack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/domain/Pack.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/domain/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/domain/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/repository/PackRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/repository/PackRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/service/CellService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/service/CellService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/service/PackService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/service/PackService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fudan/pbl/mm/controller/CellController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fudan/pbl/mm/controller/CellController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fudan/pbl/mm/controller/PackController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fudan/pbl/mm/controller/PackController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fudan/pbl/mm/controller/WebSocketController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fudan/pbl/mm/controller/WebSocketController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fudan/pbl/mm/domain/Pack.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fudan/pbl/mm/domain/Pack.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fudan/pbl/mm/domain/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fudan/pbl/mm/domain/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fudan/pbl/mm/repository/PackRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fudan/pbl/mm/repository/PackRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fudan/pbl/mm/service/CellService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fudan/pbl/mm/service/CellService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fudan/pbl/mm/service/PackService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fudan/pbl/mm/service/PackService.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -202,7 +186,7 @@
       <workItem from="1587867036757" duration="61000" />
       <workItem from="1587957191103" duration="7307000" />
       <workItem from="1588047012736" duration="51000" />
-      <workItem from="1589768666888" duration="26096000" />
+      <workItem from="1589768666888" duration="27001000" />
     </task>
     <servers />
   </component>
