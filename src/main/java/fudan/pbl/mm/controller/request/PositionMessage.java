@@ -1,9 +1,9 @@
 package fudan.pbl.mm.controller.request;
 
 public class PositionMessage {
-    private int x;
-    private int y;
-    private int z;
+    private float x;
+    private float y;
+    private float z;
     private float rotation;
     private long objectId;
 
@@ -31,27 +31,27 @@ public class PositionMessage {
         this.objectId = objectId;
     }
 
-    public int getX() {
+    public float getX() {
         return x;
     }
 
-    public int getY() {
+    public float getY() {
         return y;
     }
 
-    public int getZ() {
+    public float getZ() {
         return z;
     }
 
-    public void setX(int x) {
+    public void setX(float x) {
         this.x = x;
     }
 
-    public void setY(int y) {
+    public void setY(float y) {
         this.y = y;
     }
 
-    public void setZ(int z) {
+    public void setZ(float z) {
         this.z = z;
     }
 }
