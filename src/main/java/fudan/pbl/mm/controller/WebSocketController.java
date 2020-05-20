@@ -85,10 +85,6 @@ public class WebSocketController {
         }
         User user = userRepository.findUserById(message.getObjectId());
         Position position = new Position();
-        position.setX(message.getX());
-        position.setY(message.getY());
-        position.setZ(message.getZ());
-        position.setRotation(message.getRotation());
         boolean exist = false;
         for (User user2 : cellPositionMap.keySet()) {
             if (user2.getId().equals(user.getId())) {
@@ -107,6 +103,7 @@ public class WebSocketController {
             StartGameResponse startGameResponse = new StartGameResponse(pack, cellPositionMap.keySet(), user);
             messagingTemplate.convertAndSend("/topic/startGame", new ResponseObject<>(
                     200, "success", startGameResponse));
+            sendUpdateCellAndVirusResp("/topic/startGame");
         }
     }
 
@@ -167,15 +164,15 @@ public class WebSocketController {
                 new ResponseObject<>(200, "success", message));*/
         // 订阅 /topic/positionToAll 实现公告
         checkVirus(user);
-        sendUpdateCellAndVirusResp();
+        sendUpdateCellAndVirusResp("/topic/updateCellAndVirus");
     }
 
-    private void sendUpdateCellAndVirusResp() {
+    private void sendUpdateCellAndVirusResp(String des) {
         Map<String, Object> resp = new HashMap<>();
         resp.put("cellPositionMap", cellPositionMap);
         resp.put("virusPositionMap", virusPositionMap);
         ResponseObject<Map> responseObject = new ResponseObject<>(200, "success", resp);
-        messagingTemplate.convertAndSend("/topic/updateCellAndVirus", responseObject);
+        messagingTemplate.convertAndSend(des, responseObject);
     }
 
     @RequestMapping("/initVirus")
@@ -236,7 +233,7 @@ public class WebSocketController {
                 virusPositionMap.put(virus, pos);
             }
             for (User user : cellPositionMap.keySet()) checkVirus(user);
-            sendUpdateCellAndVirusResp();
+            sendUpdateCellAndVirusResp("/topic/updateCellAndVirus");
         }
     }
 

@@ -9,7 +9,8 @@ public class Position {
     private float rotation;
     private int lastRand;
 
-    private static final int POSITION_BOUND = 100;
+    private static final int POSITION_BOUND = 480;
+    private static final int MINUS_BOUND = -240;
     private static final float ROTATION_BOUND = 360;
 
     public Position() {
@@ -55,9 +56,9 @@ public class Position {
     }
 
     public void setRandomPosition(){
-        x = (int)(POSITION_BOUND * Math.random());
-        y = (int)(POSITION_BOUND * Math.random());
-        z = (int)(POSITION_BOUND * Math.random());
+        x = (float) (POSITION_BOUND * Math.random()) + MINUS_BOUND;
+        y = (float) (POSITION_BOUND * Math.random()) + MINUS_BOUND;
+        z = (float) (POSITION_BOUND * Math.random()) + MINUS_BOUND;
         rotation = (float)(ROTATION_BOUND * Math.random());
     }
 
