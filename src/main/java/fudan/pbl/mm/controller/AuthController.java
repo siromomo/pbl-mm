@@ -37,8 +37,13 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
         logger.debug("RegistrationForm: " + request.toString());
+        ResponseObject<User> responseObject = authService.register(request);
+        if(responseObject.getCode() != 200){
+            return ResponseEntity.ok(responseObject);
+        }
+        responseObject.setMessage(jwtTokenUtil.generateToken(responseObject.getContent()));
 
-        return ResponseEntity.ok(authService.register(request));
+        return ResponseEntity.ok(responseObject);
     }
 
     @PostMapping("/login")
