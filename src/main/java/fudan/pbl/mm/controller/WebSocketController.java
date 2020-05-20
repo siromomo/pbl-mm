@@ -111,10 +111,9 @@ public class WebSocketController {
     @MessageMapping("/loadFinish")
     public void loadFinish(PositionMessage message){
         User user = userRepository.findUserById(message.getObjectId());
-        Position position = new Position(message.getX(), message.getY(), message.getZ(), message.getRotation());
+        //Position position = new Position(message.getX(), message.getY(), message.getZ(), message.getRotation());
         if(!loadFinishSet.contains(user)) {
             loadFinishSet.add(user);
-            cellPositionMap.put(user, position);
             currentNumOfLoadedUser++;
             if (currentNumOfUser >= NUM_OF_LEAST_PLAYER) {
                 messagingTemplate.convertAndSend("/topic/startGame",
