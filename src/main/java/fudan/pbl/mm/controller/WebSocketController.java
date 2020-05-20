@@ -249,9 +249,9 @@ public class WebSocketController {
                 if (!pack.isFilled()) {
                     pack.dropHp();
                     if (pack.getHp() <= 0) {
-                        messagingTemplate.convertAndSend("/topic/gameOver", new ResponseObject<>(200, "success", "game over"));
+                        /*messagingTemplate.convertAndSend("/topic/gameOver", new ResponseObject<>(200, "success", "game over"));
                         cleanCurrentGame();
-                        return;
+                        return;*/
                     }
                     packRepository.save(pack);
                 } else {
