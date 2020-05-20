@@ -100,10 +100,11 @@ public class WebSocketController {
         }
         if (currentNumOfUser >= NUM_OF_LEAST_PLAYER) {
             if (pack == null) initPack();
-            StartGameResponse startGameResponse = new StartGameResponse(pack, cellPositionMap.keySet(), user);
+            StartGameResponse startGameResponse = new StartGameResponse(pack,
+                    new HashMap<>(cellPositionMap),
+                    new HashMap<>(virusPositionMap), user);
             messagingTemplate.convertAndSend("/topic/startGame", new ResponseObject<>(
                     200, "success", startGameResponse));
-            sendUpdateCellAndVirusResp("/topic/startGame");
         }
     }
 
