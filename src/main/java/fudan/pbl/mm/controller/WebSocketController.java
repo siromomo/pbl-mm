@@ -129,6 +129,8 @@ public class WebSocketController {
             if (u.getId().equals(message.getObjectId())) {
                 cellPositionMap.remove(u);
                 leave = u;
+                currentNumOfUser--;
+                currentNumOfLoadedUser--;
                 break;
             }
         }
