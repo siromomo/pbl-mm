@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
 public interface KnowledgeRepository extends CrudRepository<Knowledge, Long> {
     Knowledge findKnowledgeById(Long id);
     @Query( value = "select * from knowledge order by rand() limit 1", nativeQuery = true)
-    public ChoiceQuestion findRandomKnowledge();
+    public Knowledge findRandomKnowledge();
 }

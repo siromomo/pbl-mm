@@ -114,9 +114,11 @@ public class WebSocketController {
     public void clickVirus(ClickVirusMessage message){
         int rand = random.nextInt(3);
         switch (rand){
-            case 1: getRandomKnowledge(); break;
-            case 2: getRandomQuestion(); break;
-            case 3: getCellInfoByType(message.getCellType());
+            case 0: getRandomKnowledge();
+            break;
+            case 1: getRandomQuestion();
+            break;
+            case 2: getCellInfoByType(message.getCellType());
         }
         for(Virus virus : virusPositionMap.keySet()){
             if(virus.hashCode() == message.getVirusId()){
@@ -228,7 +230,6 @@ public class WebSocketController {
                 new ResponseObject<>(200, "success", currentPack));
     }
 
-    @MessageMapping("/collectKnowledge")
     public void collectKnowledge(PackKnowledgeMessage message){
         Pack currentPack = packRepository.findPackById(message.getPackId());
         currentPack.addToKnowledgeSet(knowledgeRepository.findKnowledgeById(message.getKnowledgeId()));
@@ -237,9 +238,11 @@ public class WebSocketController {
     }
 
     public void getRandomKnowledge(){
+        Knowledge knowledge = knowledgeRepository.findRandomKnowledge();
+        System.out.println("get random knowledge:" + knowledge.getContent());
         messagingTemplate.convertAndSend("/topic/getRandomKnowledge",
-                new ResponseObject<>(200, "success",
-                knowledgeRepository.findRandomKnowledge()));
+                new ResponseObject<Knowledge>(200, "success",
+                knowledge));
     }
 
     public void getRandomQuestion(){

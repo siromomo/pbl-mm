@@ -118,6 +118,18 @@
         function (dd) {
 
         })
+        stompClient.subscribe("/topic/getRandomKnowledge",
+            function (dd) {
+
+            })
+        stompClient.subscribe("/topic/getRandomQuestion",
+            function (dd) {
+
+            })
+        stompClient.subscribe("/topic/findCellInfoByType",
+            function (dd) {
+
+            })
     });
 
     function quit() {
@@ -162,12 +174,13 @@
         stompClient.send("/app/loadFinish", {},
             JSON.stringify(webMsg));
     }
-    
+    var virusId = 2;
     function clickVirus() {
         var msg = {
             'cellType': 'red',
-            'virusId': 1
+            'virusId': virusId
         }
+        virusId++;
         stompClient.send("/app/clickVirus", {},
         JSON.stringify(msg));
     }
