@@ -118,6 +118,17 @@ public class WebSocketController {
         }
     }
 
+    @MessageMapping("/dropHp")
+    public void dropHp(DropHpMessage drop){
+        pack.setHp(pack.getHp() - drop.getDropNum());
+        messagingTemplate.convertAndSend("/topic/updateHp",
+                new ResponseObject<>(200, "success",
+                pack.getHp()));
+        if(pack.getHp() <= 0){
+            cleanCurrentGame();
+        }
+    }
+
     @MessageMapping("/clickVirus")
     public void clickVirus(ClickVirusMessage message){
         if(currentNumOfLoadedUser < NUM_OF_LEAST_PLAYER) return;
@@ -190,7 +201,9 @@ public class WebSocketController {
         cellPositionMap = new ConcurrentHashMap<>();
         loadFinishSet = new HashSet<>();
         messagingTemplate.convertAndSend("/topic/gameOver",
-                new ResponseObject<>(200, "success", pack != null && pack.isFilled()));
+                new ResponseObject<>(200, "success", pack != null
+                        && pack.getHp() > 0
+                        && pack.isFilled()));
         pack = null;
         currentNumOfLoadedUser = 0;
         currentNumOfUser = 0;

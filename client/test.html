@@ -47,8 +47,9 @@
     msg: <input type="text" id="msg">
     <button onclick="sendMsg()">send message</button>
     <button onclick="quit()">quit</button>
-    <button onclick="loadOver()">load</button><br>
+    <button onclick="loadOver()">load</button>
     <button onclick="clickVirus()">click</button>
+    <button onclick="dropHp()">dropHp</button>
 </div>
 <script>
     var rootPath = "http://localhost:8080";
@@ -135,6 +136,10 @@
             function (dd) {
 
             })
+        stompClient.subscribe("/topic/updateHp",
+            function (dd) {
+
+            })
     });
 
     function quit() {
@@ -189,6 +194,14 @@
         virusId++;
         stompClient.send("/app/clickVirus", {},
         JSON.stringify(msg));
+    }
+
+    function dropHp() {
+        var msg = {
+            'dropNum': 10
+        }
+        stompClient.send("/app/dropHp", {},
+        JSON.stringify(msg))
     }
 </script>
 </body>
