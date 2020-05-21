@@ -131,10 +131,10 @@ public class WebSocketController {
         for(Virus virus : virusPositionMap.keySet()){
             if(virus.hashCode() == message.getVirusId()){
                 virusPositionMap.remove(virus);
+                virusPositionMap.put(virus, new Position());
                 break;
             }
         }
-        virusPositionMap.put(new Virus(), new Position());
     }
 
     @MessageMapping("/answerQuestion")
