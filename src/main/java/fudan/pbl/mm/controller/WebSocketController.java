@@ -6,6 +6,7 @@ import fudan.pbl.mm.controller.response.ResponseObject;
 import fudan.pbl.mm.domain.*;
 import fudan.pbl.mm.repository.*;
 import fudan.pbl.mm.service.CellService;
+import org.aspectj.weaver.patterns.TypePatternQuestions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,7 @@ public class WebSocketController {
     private static Map<Long, User> idUserMap = new ConcurrentHashMap<>();
     public static Map<Virus, Position> virusPositionMap = new ConcurrentHashMap<>();
     private Random random;
+    private ChoiceQuestion currQuestion;
 
 
     private Logger logger = LoggerFactory.getLogger(AuthController.class);
@@ -117,11 +119,14 @@ public class WebSocketController {
     public void clickVirus(ClickVirusMessage message){
         int rand = random.nextInt(3);
         switch (rand){
-            case 0: getRandomKnowledge();
+            case 0:
+                collectKnowledge(getRandomKnowledge());
             break;
-            case 1: getRandomQuestion();
+            case 1:
+                getRandomQuestion();
             break;
-            case 2: getCellInfoByType(message.getCellType());
+            case 2:
+                collectCellInfo(getCellInfoByType(message.getCellType()));
         }
         for(Virus virus : virusPositionMap.keySet()){
             if(virus.hashCode() == message.getVirusId()){
@@ -130,6 +135,19 @@ public class WebSocketController {
             }
         }
         virusPositionMap.put(new Virus(), new Position());
+    }
+
+    @MessageMapping("/answerQuestion")
+    public void answerQuestion(AnswerQuestionMessage message){
+        if(currQuestion == null || !currQuestion.getId().equals(message.getQuestionId())){
+            System.out.println("not this question");
+            return;
+        }
+        if(!currQuestion.getCorrectChoice().equals(message.getAnswer())){
+            System.out.println("wrong answer");
+            return;
+        }
+        answerQuestion(currQuestion);
     }
 
     @MessageMapping("/loadFinish")
@@ -218,48 +236,48 @@ public class WebSocketController {
     }
 
     @MessageMapping("/collectCellInfo")
-    public void collectCellInfo(PackMessage message) {
-        Pack currentPack = packRepository.findPackById(message.getPackId());
-        currentPack.addToCellInfoSet(cellInfoRepository.findCellInfoByType(message.getCellInfoType()));
+    public void collectCellInfo(CellInfo cellInfo) {
+        pack.addToCellInfoSet(cellInfo);
         messagingTemplate.convertAndSend("/topic/updatePack",
-                new ResponseObject<>(200, "success", currentPack));
+                new ResponseObject<>(200, "success", pack));
     }
 
-    @MessageMapping("/answerQuestion")
-    public void answerQuestion(PackQuestionMessage message){
-        Pack currentPack = packRepository.findPackById(message.getPackId());
-        currentPack.addToChoiceQuestionSet(choiceQuestionRepository.findChoiceQuestionById(message.getQuestionId()));
+    public void answerQuestion(ChoiceQuestion question){
+        pack.addToChoiceQuestionSet(question);
         messagingTemplate.convertAndSend("/topic/updatePack",
-                new ResponseObject<>(200, "success", currentPack));
+                new ResponseObject<>(200, "success", pack));
     }
 
 
-    @MessageMapping("/collectKnowledge")
-    public void collectKnowledge(PackKnowledgeMessage message){
-        Pack currentPack = packRepository.findPackById(message.getPackId());
-        currentPack.addToKnowledgeSet(knowledgeRepository.findKnowledgeById(message.getKnowledgeId()));
+    public void collectKnowledge(Knowledge knowledge){
+        pack.addToKnowledgeSet(knowledge);
         messagingTemplate.convertAndSend("/topic/updatePack",
-                new ResponseObject<>(200, "success", currentPack));
+                new ResponseObject<>(200, "success", pack));
     }
 
-    public void getRandomKnowledge(){
+    public Knowledge getRandomKnowledge(){
         Knowledge knowledge = knowledgeRepository.findRandomKnowledge();
         System.out.println("get random knowledge:" + knowledge.getContent());
         messagingTemplate.convertAndSend("/topic/getRandomKnowledge",
                 new ResponseObject<Knowledge>(200, "success",
                 knowledge));
+        return knowledge;
     }
 
-    public void getRandomQuestion(){
+    public ChoiceQuestion getRandomQuestion(){
+        ChoiceQuestion question = choiceQuestionRepository.findRandomQuestion();
         messagingTemplate.convertAndSend("/topic/getRandomQuestion",
                 new ResponseObject<>(200, "success",
-                        choiceQuestionRepository.findRandomQuestion()));
+                        question));
+        return question;
     }
 
-    public void getCellInfoByType(String type){
+    public CellInfo getCellInfoByType(String type){
+        CellInfo cellInfo = cellInfoRepository.findCellInfoByType(type);
         messagingTemplate.convertAndSend("/topic/findCellInfoByType",
                 new ResponseObject<>(200, "success",
-                        cellInfoRepository.findCellInfoByType(type)));
+                        cellInfo));
+        return cellInfo;
     }
 
     @Scheduled(fixedRate = 1000)

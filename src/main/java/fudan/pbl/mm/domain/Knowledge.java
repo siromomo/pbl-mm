@@ -3,6 +3,7 @@ package fudan.pbl.mm.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -42,5 +43,18 @@ public class Knowledge {
 
     public void setUserSet(Set<User> userSet) {
         this.userSet = userSet;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Knowledge knowledge = (Knowledge) o;
+        return Objects.equals(content, knowledge.content);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(content);
     }
 }

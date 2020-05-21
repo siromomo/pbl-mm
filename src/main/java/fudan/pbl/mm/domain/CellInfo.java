@@ -4,6 +4,7 @@ import antlr.collections.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -56,5 +57,18 @@ public class CellInfo {
 
     public void setPackSet(Set<Pack> packSet) {
         this.packSet = packSet;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CellInfo cellInfo = (CellInfo) o;
+        return Objects.equals(type, cellInfo.type);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type);
     }
 }
