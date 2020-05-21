@@ -56,6 +56,7 @@
     var stompClient = null;
     socket = new SockJS(rootPath + '/ws');
     stompClient = Stomp.over(socket);
+
     stompClient.connect({}, function (frame) {
         var webMsg = {
             'x': parseInt($("#x").val()),
@@ -145,9 +146,10 @@
 
     function send() {
         var webMsg = {
-            'x': parseInt($("#x").val()),
-            'y': parseInt($("#y").val()),
-            'z': parseInt($("#z").val()),
+            'x': parseFloat($("#x").val()),
+            'y': parseFloat($("#y").val()),
+            'z': parseFloat($("#z").val()),
+            'rotation':0.0,
             'objectId': parseInt(localStorage.getItem("user_id"))
         };
         stompClient.send("/app/updatePosition", {},

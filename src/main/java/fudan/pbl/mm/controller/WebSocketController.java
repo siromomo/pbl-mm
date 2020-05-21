@@ -34,6 +34,7 @@ public class WebSocketController {
     private ChoiceQuestionRepository choiceQuestionRepository;
     public static Map<User, Position> cellPositionMap = new ConcurrentHashMap<>();
     private static Set<User> loadFinishSet = new HashSet<>();
+    private static Map<Long, User> idUserMap = new ConcurrentHashMap<>();
     public static Map<Virus, Position> virusPositionMap = new ConcurrentHashMap<>();
     private Random random;
 
@@ -50,6 +51,7 @@ public class WebSocketController {
     public void init() {
         cellPositionMap = new ConcurrentHashMap<>();
         virusPositionMap = new ConcurrentHashMap<>();
+        idUserMap = new ConcurrentHashMap<>();
         loadFinishSet = new HashSet<>();
         while (virusPositionMap.size() < CellService.INIT_VIRUS_NUM) {
             virusPositionMap.put(new Virus(), new Position());
@@ -96,6 +98,7 @@ public class WebSocketController {
         }
         if (!exist) {
             cellPositionMap.put(user, position);
+            idUserMap.put(user.getId(), user);
             currentNumOfUser++;
             messagingTemplate.convertAndSend("/topic/currentNumOfUser",
                     new ResponseObject<>(200, "success", currentNumOfUser));
@@ -180,8 +183,8 @@ public class WebSocketController {
     @MessageMapping("/updatePosition")
     public void updatePosition(PositionMessage message) {
         System.out.println("websocket get message:" + message.getX() + "," + message.getY() + "," + message.getZ());
-        User user = userRepository.findUserById(message.getObjectId());
-        Position position = new Position(message.getX(), message.getY(), message.getZ());
+        User user = idUserMap.get(message.getObjectId());
+        Position position = new Position(message.getX(), message.getY(), message.getZ(), message.getRotation());
         cellPositionMap.put(user, position);
         /*checkVirus(user);
         sendUpdateCellAndVirusResp("/topic/updateCellAndVirus");*/
@@ -230,6 +233,8 @@ public class WebSocketController {
                 new ResponseObject<>(200, "success", currentPack));
     }
 
+
+    @MessageMapping("/collectKnowledge")
     public void collectKnowledge(PackKnowledgeMessage message){
         Pack currentPack = packRepository.findPackById(message.getPackId());
         currentPack.addToKnowledgeSet(knowledgeRepository.findKnowledgeById(message.getKnowledgeId()));
@@ -265,7 +270,7 @@ public class WebSocketController {
                 pos.randomUpdate();
                 virusPositionMap.put(virus, pos);
             }
-            for (User user : cellPositionMap.keySet()) checkVirus(user);
+           // for (User user : cellPositionMap.keySet()) checkVirus(user);
             sendUpdateCellAndVirusResp("/topic/updateCellAndVirus");
         }
     }
