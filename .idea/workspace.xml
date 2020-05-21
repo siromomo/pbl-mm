@@ -2,7 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d2ab5fa0-ca76-4ef7-a944-35de4c25c621" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/controller/request/ClickVirusMessage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/test.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/test.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/controller/ProblemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/controller/ProblemController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/controller/WebSocketController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/controller/WebSocketController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/domain/Virus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/domain/Virus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/fudan/pbl/mm/ApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/fudan/pbl/mm/ApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/fudan/pbl/mm/service/CellInfoServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/fudan/pbl/mm/service/CellInfoServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/fudan/pbl/mm/service/ChoiceQuestionServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/fudan/pbl/mm/service/ChoiceQuestionServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/fudan/pbl/mm/service/KnowledgeServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/fudan/pbl/mm/service/KnowledgeServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,8 +26,8 @@
       <list>
         <option value="HTML File" />
         <option value="Interface" />
-        <option value="Class" />
         <option value="JUnit5 Test Class" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -201,7 +210,7 @@
       <workItem from="1587867036757" duration="61000" />
       <workItem from="1587957191103" duration="7307000" />
       <workItem from="1588047012736" duration="51000" />
-      <workItem from="1589768666888" duration="52180000" />
+      <workItem from="1589768666888" duration="56173000" />
     </task>
     <servers />
   </component>

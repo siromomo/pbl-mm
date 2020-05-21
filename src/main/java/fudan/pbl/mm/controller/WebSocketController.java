@@ -35,6 +35,7 @@ public class WebSocketController {
     public static Map<User, Position> cellPositionMap = new ConcurrentHashMap<>();
     private static Set<User> loadFinishSet = new HashSet<>();
     public static Map<Virus, Position> virusPositionMap = new ConcurrentHashMap<>();
+    private Random random;
 
 
     private Logger logger = LoggerFactory.getLogger(AuthController.class);
@@ -53,6 +54,7 @@ public class WebSocketController {
         while (virusPositionMap.size() < CellService.INIT_VIRUS_NUM) {
             virusPositionMap.put(new Virus(), new Position());
         }
+        random = new Random();
     }
 
     private void initPack() {
@@ -106,6 +108,23 @@ public class WebSocketController {
             messagingTemplate.convertAndSend("/topic/startGame", new ResponseObject<>(
                     200, "success", startGameResponse));
         }
+    }
+
+    @MessageMapping("/clickVirus")
+    public void clickVirus(ClickVirusMessage message){
+        int rand = random.nextInt(3);
+        switch (rand){
+            case 1: getRandomKnowledge(); break;
+            case 2: getRandomQuestion(); break;
+            case 3: getCellInfoByType(message.getCellType());
+        }
+        for(Virus virus : virusPositionMap.keySet()){
+            if(virus.hashCode() == message.getVirusId()){
+                virusPositionMap.remove(virus);
+                break;
+            }
+        }
+        virusPositionMap.put(new Virus(), new Position());
     }
 
     @MessageMapping("/loadFinish")
@@ -162,11 +181,8 @@ public class WebSocketController {
         User user = userRepository.findUserById(message.getObjectId());
         Position position = new Position(message.getX(), message.getY(), message.getZ());
         cellPositionMap.put(user, position);
-        /*messagingTemplate.convertAndSend("/topic/positionToAll",
-                new ResponseObject<>(200, "success", message));*/
-        // 订阅 /topic/positionToAll 实现公告
-        checkVirus(user);
-        sendUpdateCellAndVirusResp("/topic/updateCellAndVirus");
+        /*checkVirus(user);
+        sendUpdateCellAndVirusResp("/topic/updateCellAndVirus");*/
     }
 
     private void sendUpdateCellAndVirusResp(String des) {
@@ -220,10 +236,22 @@ public class WebSocketController {
                 new ResponseObject<>(200, "success", currentPack));
     }
 
-    @RequestMapping("/getRandomKnowledge")
-    public ResponseEntity<?> getRandomKnowledge(){
-        return ResponseEntity.ok(new ResponseObject<>(200, "success",
+    public void getRandomKnowledge(){
+        messagingTemplate.convertAndSend("/topic/getRandomKnowledge",
+                new ResponseObject<>(200, "success",
                 knowledgeRepository.findRandomKnowledge()));
+    }
+
+    public void getRandomQuestion(){
+        messagingTemplate.convertAndSend("/topic/getRandomQuestion",
+                new ResponseObject<>(200, "success",
+                        choiceQuestionRepository.findRandomQuestion()));
+    }
+
+    public void getCellInfoByType(String type){
+        messagingTemplate.convertAndSend("/topic/findCellInfoByType",
+                new ResponseObject<>(200, "success",
+                        cellInfoRepository.findCellInfoByType(type)));
     }
 
     @Scheduled(fixedRate = 1000)

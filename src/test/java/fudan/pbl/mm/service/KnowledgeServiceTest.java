@@ -11,7 +11,7 @@ class KnowledgeServiceTest {
     @Autowired
     KnowledgeService knowledgeService;
 
-    @Test
+  //  @Test
     public void init(){
         knowledgeService.init();
     }

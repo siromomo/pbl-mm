@@ -12,7 +12,7 @@ class ChoiceQuestionServiceTest {
     @Autowired
     private ChoiceQuestionService choiceQuestionService;
 
-    @Test
+  //  @Test
     void read() {
         choiceQuestionService.read();
     }

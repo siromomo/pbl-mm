@@ -15,8 +15,5 @@ public class ProblemController {
         this.choiceQuestionService = choiceQuestionService;
     }
 
-    @RequestMapping("/getRandomQuestion")
-    public ResponseEntity<?> getRandomQuestion(){
-        return ResponseEntity.ok(choiceQuestionService.getRandomQuestion());
-    }
+
 }

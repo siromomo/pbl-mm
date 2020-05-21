@@ -11,7 +11,7 @@ class CellInfoServiceTest {
     @Autowired
     private CellInfoService cellInfoService;
 
-    @Test
+   // @Test
     void initCellInfo() {
         cellInfoService.initCellInfo();
     }

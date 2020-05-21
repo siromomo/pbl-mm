@@ -47,7 +47,8 @@
     msg: <input type="text" id="msg">
     <button onclick="sendMsg()">send message</button>
     <button onclick="quit()">quit</button>
-    <button onclick="loadOver()">load</button>
+    <button onclick="loadOver()">load</button><br>
+    <button onclick="clickVirus()">click</button>
 </div>
 <script>
     var rootPath = "http://localhost:8080";
@@ -160,6 +161,15 @@
         };
         stompClient.send("/app/loadFinish", {},
             JSON.stringify(webMsg));
+    }
+    
+    function clickVirus() {
+        var msg = {
+            'cellType': 'red',
+            'virusId': 1
+        }
+        stompClient.send("/app/clickVirus", {},
+        JSON.stringify(msg));
     }
 </script>
 </body>
