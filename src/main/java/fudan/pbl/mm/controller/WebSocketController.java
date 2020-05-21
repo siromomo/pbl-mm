@@ -105,7 +105,7 @@ public class WebSocketController {
             messagingTemplate.convertAndSend("/topic/currentNumOfUser",
                     new ResponseObject<>(200, "success", currentNumOfUser));
         }
-        if (currentNumOfUser >= NUM_OF_LEAST_PLAYER) {
+        if (currentNumOfUser == NUM_OF_LEAST_PLAYER) {
             while (virusPositionMap.size() < CellService.INIT_VIRUS_NUM) {
                 virusPositionMap.put(new Virus(), new Position());
             }
@@ -120,6 +120,7 @@ public class WebSocketController {
 
     @MessageMapping("/clickVirus")
     public void clickVirus(ClickVirusMessage message){
+        if(currentNumOfLoadedUser < NUM_OF_LEAST_PLAYER) return;
         int rand = random.nextInt(3);
         switch (rand){
             case 0:
@@ -155,12 +156,13 @@ public class WebSocketController {
 
     @MessageMapping("/loadFinish")
     public void loadFinish(PositionMessage message){
+        if(currentNumOfLoadedUser >= NUM_OF_LEAST_PLAYER) return;
         User user = userRepository.findUserById(message.getObjectId());
         //Position position = new Position(message.getX(), message.getY(), message.getZ(), message.getRotation());
         if(!loadFinishSet.contains(user)) {
             loadFinishSet.add(user);
             currentNumOfLoadedUser++;
-            if (currentNumOfUser >= NUM_OF_LEAST_PLAYER) {
+            if (currentNumOfLoadedUser >= NUM_OF_LEAST_PLAYER) {
                 messagingTemplate.convertAndSend("/topic/startGame",
                         new ResponseObject<>(200, "success", "all users load finish"));
             }
