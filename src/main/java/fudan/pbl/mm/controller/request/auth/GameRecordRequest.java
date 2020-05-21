@@ -10,7 +10,7 @@ public class GameRecordRequest {
     private int score;
     private String time;
     private long packId;
-    private Set<String> userNames;
+    private Set<Long> userIds;
 
     public GameRecordRequest(){}
 
@@ -38,8 +38,8 @@ public class GameRecordRequest {
         this.time = time;
     }
 
-    public Set<String> getUserNames() {
-        return userNames;
+    public Set<Long> getUserIds() {
+        return userIds;
     }
 
     public void setPackId(long packId) {
@@ -50,7 +50,7 @@ public class GameRecordRequest {
         return packId;
     }
 
-    public void setUserIds(Set<String> userIds) {
-        this.userNames = userIds;
+    public void setUserIds(Set<Long> userIds) {
+        this.userIds = userIds;
     }
 }

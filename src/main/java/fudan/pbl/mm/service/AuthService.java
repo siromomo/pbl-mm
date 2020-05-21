@@ -202,10 +202,10 @@ public class AuthService {
 
     public ResponseObject<?> endGame(GameRecordRequest request){
         Set<User> users = new HashSet<>();
-        for(String userName : request.getUserNames()){
-            User user = userRepository.findByUsername(userName);
+        for(Long userId : request.getUserIds()){
+            User user = userRepository.findUserById(userId);
             if(user == null){
-                return new ResponseObject<>(404, "user " + userName + " not exists", null);
+                return new ResponseObject<>(404, "user " + userId + " not exists", null);
             }
             users.add(user);
         }

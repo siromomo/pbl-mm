@@ -106,6 +106,9 @@ public class WebSocketController {
                     new ResponseObject<>(200, "success", currentNumOfUser));
         }
         if (currentNumOfUser >= NUM_OF_LEAST_PLAYER) {
+            while (virusPositionMap.size() < CellService.INIT_VIRUS_NUM) {
+                virusPositionMap.put(new Virus(), new Position());
+            }
             if (pack == null) initPack();
             StartGameResponse startGameResponse = new StartGameResponse(pack,
                     new HashMap<>(cellPositionMap),
@@ -184,6 +187,8 @@ public class WebSocketController {
     public ResponseEntity<?> cleanCurrentGame() {
         cellPositionMap = new ConcurrentHashMap<>();
         loadFinishSet = new HashSet<>();
+        messagingTemplate.convertAndSend("/topic/gameOver",
+                new ResponseObject<>(200, "success", pack != null && pack.isFilled()));
         pack = null;
         currentNumOfLoadedUser = 0;
         currentNumOfUser = 0;
@@ -290,6 +295,10 @@ public class WebSocketController {
             }
            // for (User user : cellPositionMap.keySet()) checkVirus(user);
             sendUpdateCellAndVirusResp("/topic/updateCellAndVirus");
+        }
+
+        if(pack != null && pack.isFilled()){
+            cleanCurrentGame();
         }
     }
 
