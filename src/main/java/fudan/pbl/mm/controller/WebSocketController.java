@@ -160,6 +160,8 @@ public class WebSocketController {
         }
         if(!currQuestion.getCorrectChoice().equals(message.getAnswer())){
             System.out.println("wrong answer");
+            messagingTemplate.convertAndSend("/topic/wrongAnswer",
+                    new ResponseObject<>(200, "success", message.getQuestionId()));
             return;
         }
         answerQuestion(currQuestion);

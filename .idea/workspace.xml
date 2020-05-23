@@ -3,10 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d2ab5fa0-ca76-4ef7-a944-35de4c25c621" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/controller/request/StartGameResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/controller/request/StartGameResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/domain/Position.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/domain/Position.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/domain/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/domain/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fudan/pbl/mm/domain/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fudan/pbl/mm/domain/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/controller/WebSocketController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fudan/pbl/mm/controller/WebSocketController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
