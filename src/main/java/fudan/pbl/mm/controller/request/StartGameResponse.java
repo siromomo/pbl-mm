@@ -12,6 +12,7 @@ public class StartGameResponse {
     private Pack pack;
     private Map<User, Position> cellPositionMap;
     private Map<Virus, Position> virusPositionMap;
+    private Set<User> userSet;
     private User newUser;
 
     public StartGameResponse(){}
@@ -21,6 +22,7 @@ public class StartGameResponse {
         this.cellPositionMap = cellPositionMap;
         this.virusPositionMap = virusPositionMap;
         this.newUser = newUser;
+        this.userSet = cellPositionMap.keySet();
     }
 
     public Map<User, Position> getCellPositionMap() {
@@ -53,5 +55,13 @@ public class StartGameResponse {
 
     public void setNewUser(User newUser) {
         this.newUser = newUser;
+    }
+
+    public Set<User> getUserSet() {
+        return userSet;
+    }
+
+    public void setUserSet(Set<User> userSet) {
+        this.userSet = userSet;
     }
 }

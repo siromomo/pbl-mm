@@ -7,6 +7,8 @@ public class Position {
     private float y;
     private float z;
     private float rotation;
+    private float rotationY;
+    private float rotationZ;
     private int lastRand;
 
     private static final int POSITION_BOUND = 480;
@@ -59,7 +61,9 @@ public class Position {
         x = (float) (POSITION_BOUND * Math.random()) + MINUS_BOUND;
         y = (float) (POSITION_BOUND * Math.random()) + MINUS_BOUND;
         z = (float) (POSITION_BOUND * Math.random()) + MINUS_BOUND;
-        rotation = (float)(ROTATION_BOUND * Math.random());
+        rotation = (float)(ROTATION_BOUND * Math.random()) - 180;
+        rotationY = (float)(ROTATION_BOUND * Math.random()) - 180;
+        rotationZ = (float)(ROTATION_BOUND * Math.random()) - 180;
     }
 
     public void randomUpdate(){
@@ -75,6 +79,8 @@ public class Position {
             case 2: z += timeFlag * POSITION_BOUND / 100; break;
         }
         rotation = (rotation + ((rand-1) * 5)) % ROTATION_BOUND;
+        rotationY = (rotationY + ((rand-1) * 5)) % ROTATION_BOUND;
+        rotationZ = (rotationZ + ((rand-1) * 5)) % ROTATION_BOUND;
         lastRand = rand;
         checkValid();
     }
@@ -105,4 +111,19 @@ public class Position {
         this.rotation = rotation;
     }
 
+    public float getRotationY() {
+        return rotationY;
+    }
+
+    public float getRotationZ() {
+        return rotationZ;
+    }
+
+    public void setRotationY(float rotationY) {
+        this.rotationY = rotationY;
+    }
+
+    public void setRotationZ(float rotationZ) {
+        this.rotationZ = rotationZ;
+    }
 }

@@ -186,6 +186,8 @@ public class WebSocketController {
         for (User u : cellPositionMap.keySet()) {
             if (u.getId().equals(message.getObjectId())) {
                 cellPositionMap.remove(u);
+                idUserMap.remove(u.getId());
+                loadFinishSet.remove(u);
                 leave = u;
                 currentNumOfUser--;
                 currentNumOfLoadedUser--;

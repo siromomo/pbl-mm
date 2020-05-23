@@ -24,6 +24,7 @@ public class User implements UserDetails {
     private String region;
     private String gender;
     private String email;
+    @JsonIgnore
     private String password;
     private String fullname;
     private String headProfilePath;
