@@ -162,10 +162,12 @@ public class WebSocketController {
         }
         if(!correct.equals(message.getAnswer())){
             System.out.println("wrong answer");
-            messagingTemplate.convertAndSend("/topic/wrongAnswer",
+            messagingTemplate.convertAndSend("/topic/" + message.getUserId() + "/wrongAnswer",
                     new ResponseObject<>(200, "success", message.getQuestionId()));
             return;
         }
+        messagingTemplate.convertAndSend("/topic/" + message.getUserId() + "/correctAnswer",
+                new ResponseObject<>(200, "success", message.getQuestionId()));
         answerQuestion(currQuestion);
     }
 

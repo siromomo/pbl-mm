@@ -3,6 +3,7 @@ package fudan.pbl.mm.controller.request;
 public class AnswerQuestionMessage {
     private Long questionId;
     private String answer;
+    private Long userId;
 
     public AnswerQuestionMessage(){}
 
@@ -20,5 +21,13 @@ public class AnswerQuestionMessage {
 
     public void setAnswer(String answer) {
         this.answer = answer;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Long getUserId() {
+        return userId;
     }
 }
