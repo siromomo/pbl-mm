@@ -290,6 +290,7 @@ public class WebSocketController {
 
     public ChoiceQuestion getRandomQuestion(Long userId){
         ChoiceQuestion question = choiceQuestionRepository.findRandomQuestion();
+        currQuestion = question;
         System.out.println("send to " + "/topic/" +
                 userId + "/getRandomQuestion");
         messagingTemplate.convertAndSend( "/topic/" +
