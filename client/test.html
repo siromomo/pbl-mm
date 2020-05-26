@@ -124,7 +124,7 @@
             function (dd) {
 
             })
-        stompClient.subscribe("/topic/getRandomQuestion",
+        stompClient.subscribe("/topic/" + localStorage.getItem("user_id") + "/getRandomQuestion",
             function (dd) {
 
             })
@@ -189,7 +189,8 @@
     function clickVirus() {
         var msg = {
             'cellType': 'red',
-            'virusId': virusId
+            'virusId': virusId,
+            'userId': localStorage.getItem("user_id")
         }
         virusId++;
         stompClient.send("/app/clickVirus", {},

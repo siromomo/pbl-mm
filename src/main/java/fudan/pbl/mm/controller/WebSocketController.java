@@ -138,7 +138,7 @@ public class WebSocketController {
                 collectKnowledge(getRandomKnowledge());
             break;
             case 1:
-                getRandomQuestion();
+                getRandomQuestion(message.getUserId());
             break;
             case 2:
                 collectCellInfo(getCellInfoByType(message.getCellType()));
@@ -249,7 +249,7 @@ public class WebSocketController {
     @MessageMapping("/chatMessageToOne")
     public void sendMessageToOne(ChatMessage message) {
         String user = String.valueOf(message.getToId());
-        messagingTemplate.convertAndSendToUser(user, "/toOne",
+        messagingTemplate.convertAndSendToUser(user, "/user/toOne",
                 new ResponseObject<>(200, "success", message));
         // 订阅 /user/userId/toOne 实现点对点
     }
@@ -288,9 +288,12 @@ public class WebSocketController {
         return knowledge;
     }
 
-    public ChoiceQuestion getRandomQuestion(){
+    public ChoiceQuestion getRandomQuestion(Long userId){
         ChoiceQuestion question = choiceQuestionRepository.findRandomQuestion();
-        messagingTemplate.convertAndSend("/topic/getRandomQuestion",
+        System.out.println("send to " + "/topic/" +
+                userId + "/getRandomQuestion");
+        messagingTemplate.convertAndSend( "/topic/" +
+                        userId + "/getRandomQuestion",
                 new ResponseObject<>(200, "success",
                         question));
         return question;
