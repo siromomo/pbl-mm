@@ -154,11 +154,13 @@ public class WebSocketController {
 
     @MessageMapping("/answerQuestion")
     public void answerQuestion(AnswerQuestionMessage message){
+        String correct = currQuestion.getCorrectChoice();
+        correct = correct.trim();
         if(currQuestion == null || !currQuestion.getId().equals(message.getQuestionId())){
             System.out.println("not this question");
             return;
         }
-        if(!currQuestion.getCorrectChoice().equals(message.getAnswer())){
+        if(!correct.equals(message.getAnswer())){
             System.out.println("wrong answer");
             messagingTemplate.convertAndSend("/topic/wrongAnswer",
                     new ResponseObject<>(200, "success", message.getQuestionId()));
