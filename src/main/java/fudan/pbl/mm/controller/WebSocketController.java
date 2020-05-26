@@ -251,7 +251,7 @@ public class WebSocketController {
     @MessageMapping("/chatMessageToOne")
     public void sendMessageToOne(ChatMessage message) {
         String user = String.valueOf(message.getToId());
-        messagingTemplate.convertAndSendToUser(user, "/user/toOne",
+        messagingTemplate.convertAndSend( "/topic/" + user + "/toOne",
                 new ResponseObject<>(200, "success", message));
         // 订阅 /user/userId/toOne 实现点对点
     }
