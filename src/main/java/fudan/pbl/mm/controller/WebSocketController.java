@@ -19,6 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.Raster;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -50,7 +56,7 @@ public class WebSocketController {
     private int currentNumOfLoadedUser = 0;
 
     @PostConstruct
-    public void init() {
+    public void init() throws IOException {
         cellPositionMap = new ConcurrentHashMap<>();
         virusPositionMap = new ConcurrentHashMap<>();
         idUserMap = new ConcurrentHashMap<>();
@@ -59,6 +65,16 @@ public class WebSocketController {
             virusPositionMap.put(new Virus(), new Position());
         }
         random = new Random();
+        BufferedImage img = ImageIO.read(new File("./terrain.jpg"));
+        Raster ra = img.getData();
+        Rectangle rect = ra.getBounds();
+        //System.out.println(rect.height);
+        //System.out.println(rect.width);
+        int nTemp[] = new int[rect.height*rect.width];
+        Position.map = ra.getPixels(0,0,rect.width, rect.height,nTemp);
+//        for(int i = 0;i<100;i++)
+//            System.out.print(Position.map[500-i]+" ");
+
     }
 
     private void initPack() {

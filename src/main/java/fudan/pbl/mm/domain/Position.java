@@ -10,11 +10,12 @@ public class Position {
     private float rotationY;
     private float rotationZ;
     private int lastRand;
-
+    public static int[] map;
     private static final int POSITION_BOUND = 480;
     private static final int MINUS_BOUND = -240;
     private static final float ROTATION_BOUND = 360;
-
+    private int count = 0;
+    private double angle;
     public Position() {
         setRandomPosition();
     }
@@ -67,31 +68,40 @@ public class Position {
     }
 
     public void randomUpdate(){
+        if(count == 0){
+            angle = Math.random()*Math.PI;
+            count = 5;
+        }
+        count--;
+
         int rand = (int)(3 * Math.random());
         if(rand == lastRand){
             rand = (rand + 1) % 3;
         }
         Calendar calendar = Calendar.getInstance();
         int timeFlag = calendar.get(Calendar.SECOND) <= 30 ? 1 : -1;
-        switch (rand){
-            case 0: x += timeFlag * POSITION_BOUND / 100; break;
-            case 1: y += timeFlag * POSITION_BOUND / 100; break;
-            case 2: z += timeFlag * POSITION_BOUND / 100; break;
-        }
+//        switch (rand){
+//            case 0: x += timeFlag * POSITION_BOUND / 50; break;
+//            case 1: y += timeFlag * POSITION_BOUND / 50; break;
+//            case 2: z += timeFlag * POSITION_BOUND / 50; break;
+//        }
+        x += Math.sin(angle)*POSITION_BOUND / 50;
+        z += Math.cos(angle)*POSITION_BOUND / 50;
         rotation = (rotation + ((rand-1) * 5)) % ROTATION_BOUND;
         rotationY = (rotationY + ((rand-1) * 5)) % ROTATION_BOUND;
         rotationZ = (rotationZ + ((rand-1) * 5)) % ROTATION_BOUND;
         lastRand = rand;
         checkValid();
+        y = map[((int)x+250)*500+(int)z+250]*0.5f-16;
     }
 
     private void checkValid(){
-        if(x < 0) x = 0;
-        if(x > POSITION_BOUND) x = POSITION_BOUND;
-        if(y < 0) y = 0;
-        if(y > POSITION_BOUND) y = POSITION_BOUND;
-        if(z < 0) z = 0;
-        if(z > POSITION_BOUND) z = POSITION_BOUND;
+        if(x < MINUS_BOUND) x = MINUS_BOUND;
+        if(x > POSITION_BOUND + MINUS_BOUND) x = POSITION_BOUND + MINUS_BOUND;
+        if(y < MINUS_BOUND) y = MINUS_BOUND;
+        if(y > POSITION_BOUND + MINUS_BOUND) y = POSITION_BOUND + MINUS_BOUND;
+        if(z < MINUS_BOUND) z = MINUS_BOUND;
+        if(z > POSITION_BOUND + MINUS_BOUND) z = POSITION_BOUND + MINUS_BOUND;
     }
 
     public double calculateDistance(Position p1){
