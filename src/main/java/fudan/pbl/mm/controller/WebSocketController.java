@@ -257,6 +257,7 @@ public class WebSocketController {
         position.setX(message.getX());
         position.setY(message.getY());
         position.setZ(message.getZ());
+        position.setRotation(message.getRotation());
         cellPositionMap.put(user, position);
         /*checkVirus(user);
         sendUpdateCellAndVirusResp("/topic/updateCellAndVirus");*/
