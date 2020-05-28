@@ -253,7 +253,10 @@ public class WebSocketController {
     public void updatePosition(PositionMessage message) {
         //System.out.println("websocket get message:" + message.getX() + "," + message.getY() + "," + message.getZ());
         User user = idUserMap.get(message.getObjectId());
-        Position position = new Position(message.getX(), message.getY(), message.getZ(), message.getRotation());
+        Position position = cellPositionMap.get(user);
+        position.setX(message.getX());
+        position.setY(message.getY());
+        position.setZ(message.getZ());
         cellPositionMap.put(user, position);
         /*checkVirus(user);
         sendUpdateCellAndVirusResp("/topic/updateCellAndVirus");*/
