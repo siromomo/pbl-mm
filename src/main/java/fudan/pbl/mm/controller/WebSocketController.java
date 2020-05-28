@@ -251,7 +251,7 @@ public class WebSocketController {
     // 即 /app/updatePosition
     @MessageMapping("/updatePosition")
     public void updatePosition(PositionMessage message) {
-        System.out.println("websocket get message:" + message.getX() + "," + message.getY() + "," + message.getZ());
+        //System.out.println("websocket get message:" + message.getX() + "," + message.getY() + "," + message.getZ());
         User user = idUserMap.get(message.getObjectId());
         Position position = new Position(message.getX(), message.getY(), message.getZ(), message.getRotation());
         cellPositionMap.put(user, position);
