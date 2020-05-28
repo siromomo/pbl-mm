@@ -69,7 +69,7 @@ public class Position {
 
     public void randomUpdate(){
         if(count == 0){
-            angle = Math.random()*Math.PI;
+            angle = Math.random()*Math.PI*2-Math.PI;
             count = 5;
         }
         count--;

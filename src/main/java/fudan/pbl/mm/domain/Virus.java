@@ -65,4 +65,8 @@ public class Virus {
     public int hashCode() {
         return this.hashId;
     }
+
+    public int getHashId() {
+        return hashId;
+    }
 }

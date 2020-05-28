@@ -129,7 +129,7 @@ public class WebSocketController {
             StartGameResponse startGameResponse = new StartGameResponse(pack,
                     new HashMap<>(cellPositionMap),
                     new HashMap<>(virusPositionMap), user);
-            startGameResponse.setUserSet(cellPositionMap.keySet());
+            startGameResponse.setUserSet(new HashSet<>(cellPositionMap.keySet()));
             messagingTemplate.convertAndSend("/topic/startGame", new ResponseObject<>(
                     200, "success", startGameResponse));
         }
@@ -161,9 +161,15 @@ public class WebSocketController {
                 collectCellInfo(getCellInfoByType(message.getCellType()));
         }
         for(Virus virus : virusPositionMap.keySet()){
-            if(virus.hashCode() == message.getVirusId()){
+            if(virus.hashCode() == (message.getVirusId())){
+                System.out.println("virus" + virus.getHashId());
+                System.out.println("before: "+ virusPositionMap.get(virus).getX() + " " + virusPositionMap.get(virus).getY()
+                        + " " + virusPositionMap.get(virus).getZ());
                 virusPositionMap.remove(virus);
                 virusPositionMap.put(virus, new Position());
+                System.out.println("remove");
+                System.out.println("after: " + virusPositionMap.get(virus).getX() + " " + virusPositionMap.get(virus).getY()
+                        + " " + virusPositionMap.get(virus).getZ());
                 break;
             }
         }

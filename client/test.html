@@ -50,11 +50,20 @@
     <button onclick="loadOver()">load</button>
     <button onclick="clickVirus()">click</button>
     <button onclick="dropHp()">dropHp</button>
+    <button onclick="cleancurr()">clean</button>
 </div>
 <script>
-    var rootPath = "http://122.51.160.221:8080";
+    var rootPath = "http://localhost:8080";
     var socket = null;
     var stompClient = null;
+    function cleancurr(){
+        $.ajax({
+            type: 'get',
+            url:"http://localhost:8080/cleanCurrentGame",
+            contentType:'application/json'
+        });
+    }
+
     socket = new SockJS(rootPath + '/ws');
     stompClient = Stomp.over(socket);
 
@@ -192,7 +201,6 @@
             'virusId': virusId,
             'userId': localStorage.getItem("user_id")
         }
-        virusId++;
         stompClient.send("/app/clickVirus", {},
         JSON.stringify(msg));
     }
