@@ -29,7 +29,7 @@ public class User implements UserDetails {
     private String fullname;
     private String headProfilePath;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Knowledge> knowledgeSet;
 

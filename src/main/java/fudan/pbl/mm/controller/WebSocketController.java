@@ -235,6 +235,7 @@ public class WebSocketController {
                 new ResponseObject<>(200, "success", pack != null
                         && pack.getHp() > 0
                         && pack.isFilled()));
+        packRepository.save(pack);
         pack = null;
         currentNumOfLoadedUser = 0;
         currentNumOfUser = 0;
