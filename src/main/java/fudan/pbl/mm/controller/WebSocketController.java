@@ -129,6 +129,7 @@ public class WebSocketController {
             StartGameResponse startGameResponse = new StartGameResponse(pack,
                     new HashMap<>(cellPositionMap),
                     new HashMap<>(virusPositionMap), user);
+            startGameResponse.setUserSet(cellPositionMap.keySet());
             messagingTemplate.convertAndSend("/topic/startGame", new ResponseObject<>(
                     200, "success", startGameResponse));
         }
