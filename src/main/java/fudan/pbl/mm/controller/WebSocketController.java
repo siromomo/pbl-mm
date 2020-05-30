@@ -6,7 +6,6 @@ import fudan.pbl.mm.controller.response.ResponseObject;
 import fudan.pbl.mm.domain.*;
 import fudan.pbl.mm.repository.*;
 import fudan.pbl.mm.service.CellService;
-import org.aspectj.weaver.patterns.TypePatternQuestions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -211,7 +210,7 @@ public class WebSocketController {
 
     @MessageMapping("/quitGame")
     public void quitGame(PositionMessage message) {
-        User leave = null;
+        /*User leave = null;
         for (User u : cellPositionMap.keySet()) {
             if (u.getId().equals(message.getObjectId())) {
                 cellPositionMap.remove(u);
@@ -224,7 +223,8 @@ public class WebSocketController {
             }
         }
         if (leave != null)
-            messagingTemplate.convertAndSend("/topic/userQuit", leave);
+            messagingTemplate.convertAndSend("/topic/userQuit", leave);*/
+        cleanCurrentGame();
     }
 
     @RequestMapping("/cleanCurrentGame")
