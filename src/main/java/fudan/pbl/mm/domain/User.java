@@ -37,10 +37,15 @@ public class User implements UserDetails {
     private int modelId;
 
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @JsonIgnore
     private Set<Authority> authorities;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JsonIgnore
     private Set<GameRecord> gameRecords;
+
+    private int knowledgeNum;
+    private int gameNum;
 
     public User() {}
     public User(String username, String password, String fullname,
@@ -193,6 +198,22 @@ public class User implements UserDetails {
 
     public Set<Knowledge> getKnowledgeSet() {
         return knowledgeSet;
+    }
+
+    public int getGameNum() {
+        return gameNum;
+    }
+
+    public int getKnowledgeNum() {
+        return knowledgeNum;
+    }
+
+    public void setGameNum(int gameNum) {
+        this.gameNum = gameNum;
+    }
+
+    public void setKnowledgeNum(int knowledgeNum) {
+        this.knowledgeNum = knowledgeNum;
     }
 
     @Override

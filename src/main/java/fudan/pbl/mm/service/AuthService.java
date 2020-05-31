@@ -1,5 +1,6 @@
 package fudan.pbl.mm.service;
 
+import com.google.common.collect.Lists;
 import fudan.pbl.mm.controller.request.auth.GameRecordRequest;
 import fudan.pbl.mm.controller.request.auth.LoginRequest;
 import fudan.pbl.mm.controller.request.auth.ModifyInfoRequest;
@@ -12,15 +13,14 @@ import fudan.pbl.mm.repository.UserRepository;
 import fudan.pbl.mm.controller.request.auth.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class AuthService {
@@ -227,5 +227,57 @@ public class AuthService {
             return new ResponseObject<>(404, "user not exists", null);
         }
         return new ResponseObject<>(200, "success", user.getKnowledgeSet());
+    }
+
+    public ResponseObject<List<GameRecord>> findRecordsByUserId(Long id){
+        User user = userRepository.findUserById(id);
+        if(user == null){
+            return new ResponseObject<>(404, "user not exists", null);
+        }
+        return new ResponseObject<>(200, "success",
+                gameRecordRepository.findGameRecordsByUsersContaining(user));
+    }
+
+    public ResponseObject<Boolean> getIsAdmin(Long id){
+        User user = userRepository.findUserById(id);
+        if(user == null){
+            return new ResponseObject<>(404, "user not exists", null);
+        }
+        boolean isAdmin = false;
+        for(GrantedAuthority authority : user.getAuthorities()){
+            if("Admin".equals(authority.getAuthority())){
+                isAdmin = true;
+                break;
+            }
+        }
+        return new ResponseObject<>(200, "success", isAdmin);
+    }
+
+    public ResponseObject<List<User>> getUserProgresses(){
+        List<User> users = Lists.newArrayList(userRepository.findAll());
+        for(User user : users){
+            user.setKnowledgeNum(user.getKnowledgeSet().size());
+            user.setGameNum(user.getGameRecords().size());
+        }
+        users.sort((o1, o2) -> {
+            int k1 = o1.getKnowledgeNum();
+            int k2 = o2.getKnowledgeNum();
+            if (k1 == k2) {
+                return 0;
+            } else {
+                return k1 > k2 ? -1 : 1;
+            }
+        });
+        return new ResponseObject<>(200, "success", users);
+    }
+
+    public ResponseObject<User> changeModel(Long userId, int modelId){
+        User user = userRepository.findUserById(userId);
+        if(user == null){
+            return new ResponseObject<>(404, "user not exists", null);
+        }
+        user.setModelId(modelId);
+        userRepository.save(user);
+        return new ResponseObject<>(200, "success", user);
     }
 }

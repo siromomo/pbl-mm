@@ -12,6 +12,8 @@ public class Knowledge {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String content;
+    @Column(columnDefinition = "int(11) default 1")
+    private int type;
     @ManyToMany(mappedBy = "knowledgeSet")
     @JsonIgnore
     private Set<Pack> packSet;
@@ -43,6 +45,14 @@ public class Knowledge {
 
     public void setUserSet(Set<User> userSet) {
         this.userSet = userSet;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     @Override

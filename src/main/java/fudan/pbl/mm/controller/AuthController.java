@@ -112,6 +112,21 @@ public class AuthController {
         return ResponseEntity.ok(authService.findKnowledgeByUserId(userId));
     }
 
+    @RequestMapping("/findRecordsByUserId")
+    public ResponseEntity<?> findRecordsByUserId(@RequestParam Long userId){
+        return ResponseEntity.ok(authService.findRecordsByUserId(userId));
+    }
+
+    @RequestMapping("/getIsAdmin")
+    public ResponseEntity<?> getIsAdmin(@RequestParam Long userId){
+        return ResponseEntity.ok(authService.getIsAdmin(userId));
+    }
+
+    @RequestMapping("/getUserProgresses")
+    public ResponseEntity<?> getUserProgresses(){
+        return ResponseEntity.ok(authService.getUserProgresses());
+    }
+
 }
 
 
