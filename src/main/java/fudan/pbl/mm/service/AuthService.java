@@ -99,7 +99,7 @@ public class AuthService {
         if(user == null){
             return new ResponseObject<>(404, "user not exist", null);
         }
-        if(!user.getPassword().equals(request.getOriginalPassword())){
+        if(!checkPwd(request.getOriginalPassword(), user.getPassword())){
             return new ResponseObject<>(403, "password is incorrect", null);
         }
         if(request.getEmail() != null && request.getEmail().length() > 0)

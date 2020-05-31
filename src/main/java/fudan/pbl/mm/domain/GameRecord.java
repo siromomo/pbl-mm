@@ -19,7 +19,6 @@ public class GameRecord {
     private Date time;
 
     @ManyToMany(mappedBy = "gameRecords")
-    @JsonIgnore
     private Set<User> users;
 
     public GameRecord(){}
