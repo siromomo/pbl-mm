@@ -132,6 +132,11 @@ public class AuthController {
         return ResponseEntity.ok(authService.getUserInfos());
     }
 
+    @RequestMapping("/getUserGameTimes")
+    public ResponseEntity<?> getUserGameTimes(){
+        return ResponseEntity.ok(authService.getUserGameTimes());
+    }
+
 }
 
 

@@ -1,8 +1,10 @@
 package fudan.pbl.mm.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -12,21 +14,23 @@ public class GameRecord {
     private Long id;
     private String status;
     private int score;
-    private String time;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date time;
 
     @ManyToMany(mappedBy = "gameRecords")
     @JsonIgnore
     private Set<User> users;
 
     public GameRecord(){}
-    public GameRecord(String status, int score, String time, Set<User> users){
+    public GameRecord(String status, int score, Date time, Set<User> users){
         this.status = status;
         this.score = score;
         this.time = time;
         this.users = users;
     }
 
-    public void setTime(String time) {
+    public void setTime(Date time) {
         this.time = time;
     }
 
@@ -50,7 +54,7 @@ public class GameRecord {
         return score;
     }
 
-    public String getTime() {
+    public Date getTime() {
         return time;
     }
 

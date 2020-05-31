@@ -6,6 +6,7 @@ import fudan.pbl.mm.controller.request.auth.LoginRequest;
 import fudan.pbl.mm.controller.request.auth.ModifyInfoRequest;
 import fudan.pbl.mm.controller.response.ResponseObject;
 import fudan.pbl.mm.controller.response.UserInfoResponse;
+import fudan.pbl.mm.controller.response.UserProgressesResponse;
 import fudan.pbl.mm.domain.*;
 import fudan.pbl.mm.repository.AuthorityRepository;
 import fudan.pbl.mm.repository.GameRecordRepository;
@@ -21,6 +22,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -212,7 +215,10 @@ public class AuthService {
         }
         Pack pack = packRepository.findPackById(request.getPackId());
         Set<Knowledge> knowledgeSet = pack.getKnowledgeSet();
-        GameRecord record = new GameRecord(request.getStatus(), request.getScore(), request.getTime(), users);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        ParsePosition pos = new ParsePosition(0);
+        Date date = formatter.parse(request.getTime(), pos);
+        GameRecord record = new GameRecord(request.getStatus(), request.getScore(), date, users);
         gameRecordRepository.save(record);
         for(User user : users) {
             user.addToGameRecords(record);
@@ -297,6 +303,22 @@ public class AuthService {
                 response.genderRangeNum[0]++;
             }else{
                 response.genderRangeNum[1]++;
+            }
+        }
+        return new ResponseObject<>(200, "success", response);
+    }
+
+    public ResponseObject<UserProgressesResponse> getUserGameTimes(){
+        List<GameRecord> gameRecords = Lists.newArrayList(gameRecordRepository.findAll());
+        UserProgressesResponse response = new UserProgressesResponse();
+        for(GameRecord gameRecord : gameRecords){
+            for(int i = 0; i < response.timeRange.length; i++){
+                Date low = i == 0 ? response.strToDate("1900-01-01 00:00:00") : response.timeRange[i-1];
+                Date high = response.timeRange[i];
+                if(gameRecord.getTime().after(low) && gameRecord.getTime().before(high)){
+                    response.timeRangeNum[i]++;
+                    break;
+                }
             }
         }
         return new ResponseObject<>(200, "success", response);
