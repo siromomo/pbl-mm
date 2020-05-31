@@ -5,6 +5,7 @@ import fudan.pbl.mm.controller.request.auth.GameRecordRequest;
 import fudan.pbl.mm.controller.request.auth.LoginRequest;
 import fudan.pbl.mm.controller.request.auth.ModifyInfoRequest;
 import fudan.pbl.mm.controller.response.ResponseObject;
+import fudan.pbl.mm.controller.response.UserInfoResponse;
 import fudan.pbl.mm.domain.*;
 import fudan.pbl.mm.repository.AuthorityRepository;
 import fudan.pbl.mm.repository.GameRecordRepository;
@@ -279,5 +280,25 @@ public class AuthService {
         user.setModelId(modelId);
         userRepository.save(user);
         return new ResponseObject<>(200, "success", user);
+    }
+
+    public ResponseObject<UserInfoResponse> getUserInfos(){
+        List<User> users = Lists.newArrayList(userRepository.findAll());
+        UserInfoResponse response = new UserInfoResponse();
+        for(User user : users){
+            for(int i = 0; i < 10; i++){
+                int low = i == 0 ? 0 : response.ageRange[i-1];
+                int high = response.ageRange[i];
+                if(user.getAge() >= low && user.getAge() < high){
+                    response.ageRangeNum[i]++;
+                }
+            }
+            if("male".equals(user.getGender().toLowerCase())){
+                response.genderRangeNum[0]++;
+            }else{
+                response.genderRangeNum[1]++;
+            }
+        }
+        return new ResponseObject<>(200, "success", response);
     }
 }

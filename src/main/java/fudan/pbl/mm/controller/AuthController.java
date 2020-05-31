@@ -127,6 +127,11 @@ public class AuthController {
         return ResponseEntity.ok(authService.getUserProgresses());
     }
 
+    @RequestMapping("/getUserInfos")
+    public ResponseEntity<?> getUserInfos(){
+        return ResponseEntity.ok(authService.getUserInfos());
+    }
+
 }
 
 

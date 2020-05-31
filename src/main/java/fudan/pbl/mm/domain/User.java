@@ -22,6 +22,7 @@ public class User implements UserDetails {
 
     private int age;
     private String region;
+    @Column(columnDefinition = "varchar(255) default 'male'")
     private String gender;
     private String email;
     @JsonIgnore
